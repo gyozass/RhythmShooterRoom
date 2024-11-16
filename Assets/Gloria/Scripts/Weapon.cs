@@ -7,23 +7,27 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] Camera FPCamera;
     [SerializeField] float range = 100f;
-    [SerializeField] float damage = 30f;
+    [SerializeField] float damage;
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] GameObject hitEffect;
 
+    BeatSpawner shooter;
+
     [SerializeField] private InputActionReference fire;
 
-    private void OnEnable()
-    {
-        fire.action.performed += PerformAttack;
-    }
+    public BeatSpawner BeatSpawner;
 
-    private void OnDisable()
-    {
-        fire.action.performed -= PerformAttack;
-    }
+  // private void OnEnable()
+  // {
+  //     fire.action.performed += PerformAttack;
+  // }
+  //
+  // private void OnDisable()
+  // {
+  //     fire.action.performed -= PerformAttack;
+  // }
 
-    private void PerformAttack(InputAction.CallbackContext obj)
+    public void PerformAttack(InputAction.CallbackContext obj)
     {
         Shoot(); 
     }
@@ -50,6 +54,28 @@ public class Weapon : MonoBehaviour
             EnemyHealth enemy = hit.transform.GetComponent<EnemyHealth>();
               if (enemy == null)
                 return;
+
+            switch(BeatSpawner.CurrentJudgement)
+            {
+                case BeatSpawner.Judgements.Perfect:
+                    damage = 100f;
+                    //instantiate the effects
+
+                    break;
+                case BeatSpawner.Judgements.Great:
+                    damage = 50f; 
+
+                    break;
+                case BeatSpawner.Judgements.Good:
+                    damage = 25f;
+
+                    break;
+                default :
+                    damage = 0f;
+
+                    break;
+
+             };
             enemy.TakeDamage(damage);
         }
 

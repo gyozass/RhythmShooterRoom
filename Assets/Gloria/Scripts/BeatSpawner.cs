@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline.Actions;
+using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -8,6 +8,16 @@ using UnityEngine.UI;
 
 public class BeatSpawner : MonoBehaviour
 {
+    public enum Judgements
+    {
+        Perfect,
+        Great,
+        Good,
+        Miss
+    }
+
+    public Judgements CurrentJudgement = Judgements.Miss;
+
     public Canvas canvas;
     public GameObject spritePrefab;
 
@@ -26,9 +36,9 @@ public class BeatSpawner : MonoBehaviour
 
     void Awake()
     {
-        clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
-        clickAction.performed += ctx => HandleClickOnBeat();
-        clickAction.Enable();
+      // clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
+      // clickAction.performed += ctx => HandleClickOnBeat();
+      // clickAction.Enable();
 
         // Calculate the interval between spawns based on BPM
         spawnInterval = 60f / beatsPerMinute;
@@ -75,7 +85,7 @@ public class BeatSpawner : MonoBehaviour
         activeBeatSprites.Add(newBeatSprite);
     }
 
-    private void HandleClickOnBeat()
+    public void HandleClickOnBeat()
     {
         if (activeBeatSprites.Count == 0) return;
 
@@ -109,21 +119,22 @@ public class BeatSpawner : MonoBehaviour
             BeatSprite beatComponent = closestSprite.GetComponent<BeatSprite>();
             float currentCountdown = beatComponent.GetCurrentCountdown();
 
-            // Determine judgment based on countdown in milliseconds
-            string judgment = GetJudgment(currentCountdown);
-            Debug.Log($"Click Judgment: {judgment} with Countdown: {currentCountdown}ms");
+            CurrentJudgement = GetJudgment(currentCountdown);
+            // send an event with the currentjudgement
+            //Debug.Log($"Click Judgment: {CurrentJudgement} with Countdown: {currentCountdown}ms");
 
             closestSprite.SetActive(false);
             activeBeatSprites.Remove(closestSprite);
         }
     }
 
-    private string GetJudgment(float countdown)
+    public Judgements GetJudgment(float countdown)
     {
-        if (Mathf.Abs(countdown) <= perfectWindow && Mathf.Abs(countdown) > 0f ) return "Perfect";
-        if (Mathf.Abs(countdown) <= greatWindow) return "Great";
-        if (Mathf.Abs(countdown) <= goodWindow) return "Good";
-        return "Miss";
+        if ((countdown) <= perfectWindow && (countdown) > 0f ) return Judgements.Perfect;
+        if ((countdown) <= greatWindow && countdown >= goodWindow) return Judgements.Great;
+        if ((countdown) <= goodWindow && countdown >= judgmentRadius) return Judgements.Good;
+        return Judgements.Miss;
+
     }
 
     private void OnDisable()
