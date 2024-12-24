@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject prefab; 
+    public GameObject prefab;
+    public GameObject bulletProjectile;
 
     [Header("Spawn")]
     public List<Transform> spawnPoints; 
@@ -45,6 +46,7 @@ public class EnemySpawner : MonoBehaviour
             randomPosition.y = 0;
 
             Instantiate(prefab, randomPosition, Quaternion.identity);
+            Instantiate(bulletProjectile, randomPosition, Quaternion.identity);
         }
     }
 

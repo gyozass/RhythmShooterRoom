@@ -20,6 +20,7 @@ public class BeatSpawner : MonoBehaviour
 
     public Canvas canvas;
     public GameObject spritePrefab;
+    public Sprite particleEffect;
 
     [Header("beats")]
     public float beatsPerMinute = 120f;
@@ -33,6 +34,7 @@ public class BeatSpawner : MonoBehaviour
     private float spawnInterval;
     private InputAction clickAction;
     private List<GameObject> activeBeatSprites = new List<GameObject>();
+
 
     void Awake()
     {
@@ -90,7 +92,7 @@ public class BeatSpawner : MonoBehaviour
         if (activeBeatSprites.Count == 0) return;
 
         GameObject closestSprite = null;
-        float closestDistance = float.MaxValue;
+        //float closestDistance = float.MaxValue;
         float closestCountdown = float.MaxValue;
 
         // find nearest note
@@ -121,18 +123,19 @@ public class BeatSpawner : MonoBehaviour
 
             CurrentJudgement = GetJudgment(currentCountdown);
             // send an event with the currentjudgement
-            //Debug.Log($"Click Judgment: {CurrentJudgement} with Countdown: {currentCountdown}ms");
+            Debug.Log($"Click Judgment: {CurrentJudgement} with Countdown: {currentCountdown}ms");
 
             closestSprite.SetActive(false);
             activeBeatSprites.Remove(closestSprite);
+            Instantiate(particleEffect, closestSprite.transform.position, Quaternion.identity);
         }
     }
 
     public Judgements GetJudgment(float countdown)
     {
-        if ((countdown) <= perfectWindow && (countdown) > 0f ) return Judgements.Perfect;
-        if ((countdown) <= greatWindow && countdown >= goodWindow) return Judgements.Great;
-        if ((countdown) <= goodWindow && countdown >= judgmentRadius) return Judgements.Good;
+        if (countdown <= perfectWindow && countdown > 0f ) return Judgements.Perfect;
+        if (countdown <= greatWindow && countdown >= perfectWindow) return Judgements.Great;
+        if (countdown <= goodWindow && countdown >= greatWindow) return Judgements.Good;
         return Judgements.Miss;
 
     }
