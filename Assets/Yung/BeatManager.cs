@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-//using Unity.Cinemachine;
+using Cinemachine;
 
 public class BeatManager : MonoBehaviour{
     [SerializeField] private float xOffset = 0f;
