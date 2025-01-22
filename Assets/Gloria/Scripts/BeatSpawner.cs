@@ -24,23 +24,23 @@ public class BeatSpawner : MonoBehaviour
 
     [Header("beats")]
     public float beatsPerMinute = 120f;
-    public float countdownStart = 2000f; 
+    public float countdownStart = 2000f;
 
     [Header("judgement stuff")]
-    public int perfectWindow = 25; 
-    public int greatWindow = 50;   
-    public int goodWindow = 100;   
+    public int perfectWindow = 25;
+    public int greatWindow = 50;
+    public int goodWindow = 100;
     public float judgmentRadius = 50f;
     private float spawnInterval;
     private InputAction clickAction;
     private List<GameObject> activeBeatSprites = new List<GameObject>();
 
-
     void Awake()
     {
-      // clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
-      // clickAction.performed += ctx => HandleClickOnBeat();
-      // clickAction.Enable();
+        // Initialize InputAction
+        // clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
+        // clickAction.performed += ctx => HandleClickOnBeat();
+        // clickAction.Enable();
 
         // Calculate the interval between spawns based on BPM
         spawnInterval = 60f / beatsPerMinute;
@@ -71,13 +71,10 @@ public class BeatSpawner : MonoBehaviour
 
         bool isFromLeft = Random.value > 0.5f;
         float canvasWidth = canvas.GetComponent<RectTransform>().rect.width;
-        Vector2 startPosition = isFromLeft
-            ? new Vector2(-canvasWidth * 0.4f, 0)
-            : new Vector2(canvasWidth * 0.4f, 0);
+        Vector2 startPosition = isFromLeft ? new Vector2(-canvasWidth * 0.4f, 0) : new Vector2(canvasWidth * 0.4f, 0);
 
         spriteRect.anchoredPosition = startPosition;
 
-        // Attach BeatSprite Component and Set Initial Values
         BeatSprite beatComponent = newBeatSprite.GetComponent<BeatSprite>();
         if (beatComponent != null)
         {
@@ -92,19 +89,17 @@ public class BeatSpawner : MonoBehaviour
         if (activeBeatSprites.Count == 0) return;
 
         GameObject closestSprite = null;
-        //float closestDistance = float.MaxValue;
         float closestCountdown = float.MaxValue;
 
-        // find nearest note
-        foreach (GameObject sprite in activeBeatSprites)
+        for (int i = 0; i < activeBeatSprites.Count; i++)
         {
+            GameObject sprite = activeBeatSprites[i];
             BeatSprite beatComponent = sprite.GetComponent<BeatSprite>();
             if (beatComponent == null) continue;
 
             float distanceFromCenter = Vector2.Distance(sprite.GetComponent<RectTransform>().anchoredPosition, Vector2.zero);
             if (distanceFromCenter > judgmentRadius) continue;
 
-            // ms
             float currentCountdown = beatComponent.GetCurrentCountdown();
 
             if (currentCountdown == -1f) continue; // Skip uninitialized notes
@@ -122,7 +117,6 @@ public class BeatSpawner : MonoBehaviour
             float currentCountdown = beatComponent.GetCurrentCountdown();
 
             CurrentJudgement = GetJudgment(currentCountdown);
-            // send an event with the currentjudgement
             Debug.Log($"Click Judgment: {CurrentJudgement} with Countdown: {currentCountdown}ms");
 
             closestSprite.SetActive(false);
@@ -133,15 +127,14 @@ public class BeatSpawner : MonoBehaviour
 
     public Judgements GetJudgment(float countdown)
     {
-        if (countdown <= perfectWindow && countdown > 0f ) return Judgements.Perfect;
+        if (countdown <= perfectWindow && countdown > 0f) return Judgements.Perfect;
         if (countdown <= greatWindow && countdown >= perfectWindow) return Judgements.Great;
         if (countdown <= goodWindow && countdown >= greatWindow) return Judgements.Good;
         return Judgements.Miss;
-
     }
 
     private void OnDisable()
     {
-        clickAction.Disable();
+        clickAction?.Disable();
     }
 }

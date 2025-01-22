@@ -8,22 +8,26 @@ public class EnemySpawner : MonoBehaviour
     public GameObject bulletProjectile;
 
     [Header("Spawn")]
-    public List<Transform> spawnPoints; 
+    public List<Transform> spawnPoints;
     public int spawnAmount = 10;
     public float spawnRadius = 5f;
 
     [Header("Wave")]
     public float waveCooldown = 3f;
+    public float bulletSpawnInterval = 1f; 
     private bool isWaveCooldown = false;
+    private bool isPlayerTriggered = false;
+
+    private Coroutine bulletSpawnCoroutine;
 
     void Start()
     {
-        SpawnAtRandomPoint();
+
     }
 
     void Update()
     {
-        if (IsReadyForNextWave() && !isWaveCooldown)
+        if (IsReadyForNextWave() && !isWaveCooldown && isPlayerTriggered)
         {
             StartCoroutine(SpawnNextWaveWithCooldown());
         }
@@ -33,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (spawnPoints.Count == 0)
         {
-            Debug.Log("no zombies");
+            Debug.Log("No spawn points available");
             return;
         }
 
@@ -42,19 +46,36 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < spawnAmount; i++)
         {
             Vector3 randomPosition = chosenSpawnPoint.position + Random.insideUnitSphere * spawnRadius;
-
             randomPosition.y = 0;
 
-            Instantiate(prefab, randomPosition, Quaternion.identity);
+            GameObject spawnedPrefab = Instantiate(prefab, randomPosition, Quaternion.identity);
+
             Instantiate(bulletProjectile, randomPosition, Quaternion.identity);
+
+            // bullet keep spawning till enemy dies 
+            if (bulletSpawnCoroutine == null)
+            {
+                bulletSpawnCoroutine = StartCoroutine(SpawnBullets(spawnedPrefab));
+            }
         }
+    }
+
+    public IEnumerator SpawnBullets(GameObject targetPrefab)
+    {
+        while (targetPrefab != null)
+        {
+            Vector3 spawnPosition = targetPrefab.transform.position;
+            Instantiate(bulletProjectile, spawnPosition, Quaternion.identity);
+            yield return new WaitForSeconds(bulletSpawnInterval);
+        }
+
+        bulletSpawnCoroutine = null;
     }
 
     public bool IsReadyForNextWave()
     {
         int activePrefabs = GameObject.FindGameObjectsWithTag(prefab.tag).Length;
-
-        return activePrefabs == 1;
+        return activePrefabs == 0;
     }
 
     public IEnumerator SpawnNextWaveWithCooldown()
@@ -63,5 +84,14 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(waveCooldown);
         SpawnAtRandomPoint();
         isWaveCooldown = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerTriggered = true;
+            SpawnAtRandomPoint();
+        }
     }
 }

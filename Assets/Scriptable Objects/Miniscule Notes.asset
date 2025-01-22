@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f775577eee15844bf295f6c83c67c0, type: 3}
+  m_Name: Miniscule Notes
+  m_EditorClassIdentifier: 
+  configurationName: 
+  _beats:
+  - _steps: 1
+  - _steps: 0.9
+  - _steps: 0.8
+  - _steps: 0.7
+  - _steps: 0.625
+  - _steps: 0.5
+  - _steps: 0.475
+  - _steps: 0.45
+  - _steps: 0.425
+  - _steps: 0.4
+  - _steps: 0.375
+  - _steps: 0.35
+  - _steps: 0.325
+  - _steps: 0.3
+  - _steps: 0.275
+  - _steps: 0.25
+  - _steps: 0.25
+  - _steps: 0.25
+  - _steps: 0.25
+  - _steps: 0.25
+  - _steps: 0.125
+  - _steps: 0.25
+  - _steps: 0.075
+  - _steps: 0.05
+  - _steps: 0.25

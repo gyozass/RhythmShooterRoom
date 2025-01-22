@@ -42,21 +42,12 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
-                    "type": "PassThrough",
-                    "id": "0b944eac-54df-4652-ba0e-487b0cf54b28",
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "77ddfb14-94e8-41fe-8f73-84843de225d0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "15b24a7b-b0c4-42aa-9e34-1d89d8663fae",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Tap",
                     "initialStateCheck": false
                 }
             ],
@@ -239,22 +230,11 @@
                 },
                 {
                     "name": "",
-                    "id": "69f5d3d8-5bd8-40dd-b647-6823888e6b32",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ebf92cd9-9b2c-4287-984e-dd3611617d03",
+                    "id": "ae706db9-7c47-4ab9-a7a3-07b4955ed729",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": ";KeyboardMouse",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
