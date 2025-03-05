@@ -14,7 +14,6 @@ public class NoteSpriteMover : MonoBehaviour
     private Vector2 _startPosition;
     private Vector2 _targetPosition;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _startPosition = transform.position;
@@ -26,6 +25,12 @@ public class NoteSpriteMover : MonoBehaviour
     {
         _t += Time.deltaTime / _timeToReachTarget;
         _animCurve.Evaluate(_t);
+
+        if (_t >= 0.9f)
+        {
+            ResetObject();  
+        }
+
         transform.position = Vector2.Lerp(_startPosition, _targetPosition, _t);
         Vector2 v2 = new Vector2(transform.position.x, transform.position.y);
 

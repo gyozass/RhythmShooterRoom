@@ -1,9 +1,13 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.UI;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -12,18 +16,25 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private BeatManager beatManager;
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private float range = 100f;
-    [SerializeField] private float force;
-    [SerializeField] private Rigidbody playerRb;
-    [SerializeField] private float flightForce = 10f; // Adjust flight force
-
+    [SerializeField] private Canvas reticleCanvas;
+    [SerializeField] private AnimationCurve knockbackCurve; // Add this
+    private float range = 100f;
+    //private Image clickEffectGlow;
+    private CharacterController playerController;
+    private FirstPersonController firstPersonController;
     private RaycastHit hit;
-    private float roundedDifference;
+
+    private Vector3 _knockbackDirection;
+    [SerializeField] private float knockbackForce = 20f;
+    [SerializeField] private float knockbackDuration = 0.5f; // Adjustable duration for knockback
 
     private void Start()
     {
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
+
+        playerController = FindObjectOfType<CharacterController>();
+        firstPersonController = FindObjectOfType<FirstPersonController>();
     }
 
     private void Update()
@@ -34,15 +45,23 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
-    public void CreateHitImpact(Vector3 hitPoint, Vector3 normal)
+    public void ApplyKnockback()
     {
-        GameObject impact = Instantiate(hitEffect, hitPoint, Quaternion.LookRotation(normal));
-        Destroy(impact, 1f);
+        _knockbackDirection = hit.normal; 
+        StartCoroutine(ApplyKnockbackCoroutine());
     }
 
-    public bool ProcessRaycast(out RaycastHit raycastHit)
+    private IEnumerator ApplyKnockbackCoroutine()
     {
-        return Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out raycastHit, range);
+        float elapsedTime = 0f;
+        while (elapsedTime < knockbackDuration)
+        {
+            float curveValue = knockbackCurve.Evaluate(elapsedTime / knockbackDuration);
+            Vector3 force = _knockbackDirection * (knockbackForce * curveValue * Time.deltaTime);
+            playerController.Move(force);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
     }
 
     public void Shoot()
@@ -53,33 +72,16 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
+        ApplyKnockback();
+
         float damage = GetDamageBasedOnThreshold(beatManager.roundedDifference);
 
-        Debug.Log(hit.point);
-        Vector3 screenToWorldPoint =  FPCamera.ScreenToWorldPoint(hit.point);
+        StartCoroutine(ShowShootingLine(transform.position, hit.point));
 
-        StartCoroutine(ShowShootingLine(transform.position, screenToWorldPoint));
-
-        if (hit.transform.CompareTag("Room"))
-        {
-            Vector3 forceDirection = -hit.normal * flightForce;
-            playerRb.AddForce(forceDirection, ForceMode.Impulse);
-            Debug.Log("Flight force applied");
-        }
 
         if (beatManager.roundedDifference < beatManager._terribleThreshold)
         {
             CreateHitImpact(hit.point, hit.normal);
-
-            Vector3 targetPoint = hit.point;
-            Vector3 direction = targetPoint - transform.position;
-
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            bullet.transform.forward = direction.normalized;
-
-            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-            bulletRb.AddForce(direction.normalized * force, ForceMode.Impulse);
-            bulletRb.AddForce(FPCamera.transform.up * force, ForceMode.Impulse);
         }
 
         if (hit.transform.CompareTag("Enemy"))
@@ -93,6 +95,18 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
+    public void CreateHitImpact(Vector3 hitPoint, Vector3 normal)
+    {
+        GameObject impact = Instantiate(hitEffect, hitPoint, Quaternion.LookRotation(normal));
+        Destroy(impact, 1f);
+
+    }
+
+    public bool ProcessRaycast(out RaycastHit raycastHit)
+    {
+        return Physics.Raycast(FPCamera.transform.position, FPCamera.transform.forward, out raycastHit, range);
+    }
+
     private IEnumerator ShowShootingLine(Vector3 start, Vector3 end)
     {
         lineRenderer.enabled = true;
@@ -104,7 +118,7 @@ public class PlayerShooting : MonoBehaviour
 
     public float GetDamageBasedOnThreshold(float roundedDifference)
     {
-        Debug.Log(roundedDifference);
+        //Debug.Log(roundedDifference);
         if (roundedDifference < beatManager._badThreshold && roundedDifference > beatManager._okThreshold) return 5f;
         if (roundedDifference < beatManager._okThreshold && roundedDifference > beatManager._goodThreshold) return 10f;
         if (roundedDifference < beatManager._goodThreshold && roundedDifference > beatManager._perfectThreshold) return 20f;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject prefab;
-    public GameObject bulletProjectile;
+   // public GameObject bulletProjectile;
 
     [Header("Spawn")]
     public List<Transform> spawnPoints;
@@ -50,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
 
             GameObject spawnedPrefab = Instantiate(prefab, randomPosition, Quaternion.identity);
 
-            Instantiate(bulletProjectile, randomPosition, Quaternion.identity);
+            //Instantiate(bulletProjectile, randomPosition, Quaternion.identity);
 
             // bullet keep spawning till enemy dies 
             if (bulletSpawnCoroutine == null)
@@ -65,7 +65,7 @@ public class EnemySpawner : MonoBehaviour
         while (targetPrefab != null)
         {
             Vector3 spawnPosition = targetPrefab.transform.position;
-            Instantiate(bulletProjectile, spawnPosition, Quaternion.identity);
+            //Instantiate(bulletProjectile, spawnPosition, Quaternion.identity);
             yield return new WaitForSeconds(bulletSpawnInterval);
         }
 

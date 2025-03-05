@@ -55,10 +55,11 @@ namespace StarterAssets
 		private float _cinemachineTargetPitch;
 
 		// player
-		private float _speed;
+		internal float _speed;
 		private float _rotationVelocity;
 		internal float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
+		//internal Vector3 directionalVector;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
