@@ -28,7 +28,7 @@ public class NoteVisualizer : MonoBehaviour
     {
         for (int i = 0; i < _noteSprites.Length; i++)
         {
-            _noteSprites[i].SetActive(false);
+            _noteSprites[i].SetActive(false);  
         }
 
         StartCoroutine(SpawnRoutine());

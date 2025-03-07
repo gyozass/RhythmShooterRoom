@@ -18,7 +18,6 @@ public class BeatManager : MonoBehaviour{
     //[SerializeField] private Beat[] _beats;
     [SerializeField] private GameObject __go_beatEffectObject;
     [SerializeField] private GameObject[] _beatEffectObject;
-    [SerializeField] public GameObject glowEffect;
     public float xOffset = 0f;
     public float roundedDifference;
 
@@ -36,7 +35,6 @@ public class BeatManager : MonoBehaviour{
 
     private void Start()
     {
-        glowEffect.SetActive(false);    
         //for repositioning the gameobject when spawned
         Vector3 offsetVector = new();
 
@@ -73,17 +71,16 @@ public class BeatManager : MonoBehaviour{
     }
 
     public float _terribleThreshold = 0.4f,
-        _badThreshold = 0.3f,
-        _okThreshold = 0.2f, 
-        _goodThreshold = 0.1f, 
-        _perfectThreshold = 0.05f;
+                 _badThreshold = 0.3f,
+                 _okThreshold = 0.2f, 
+                 _goodThreshold = 0.1f, 
+                 _perfectThreshold = 0.05f;
 
     public void DetermineHit()
     {   
         float roundedValue = (float)Math.Round(_valHolder[1]);
         roundedDifference = Mathf.Abs(roundedValue - _valHolder[1]);
         Debug.Log(roundedDifference);
-
 
         if (roundedDifference > _terribleThreshold)
         {

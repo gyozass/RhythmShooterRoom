@@ -17,7 +17,8 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Canvas reticleCanvas;
-    [SerializeField] private AnimationCurve knockbackCurve; // Add this
+    [SerializeField] private AnimationCurve knockbackCurve;
+    [SerializeField] public GameObject glowEffect;
     private float range = 100f;
     //private Image clickEffectGlow;
     private CharacterController playerController;
@@ -26,7 +27,7 @@ public class PlayerShooting : MonoBehaviour
 
     private Vector3 _knockbackDirection;
     [SerializeField] private float knockbackForce = 20f;
-    [SerializeField] private float knockbackDuration = 0.5f; // Adjustable duration for knockback
+    [SerializeField] private float knockbackDuration = 0.5f; 
 
     private void Start()
     {
@@ -72,16 +73,16 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        ApplyKnockback();
-
         float damage = GetDamageBasedOnThreshold(beatManager.roundedDifference);
 
         StartCoroutine(ShowShootingLine(transform.position, hit.point));
 
-
         if (beatManager.roundedDifference < beatManager._terribleThreshold)
         {
             CreateHitImpact(hit.point, hit.normal);
+            ApplyKnockback();
+
+            StartCoroutine(HideGlowAfterSeconds());
         }
 
         if (hit.transform.CompareTag("Enemy"))
@@ -93,6 +94,23 @@ public class PlayerShooting : MonoBehaviour
                 Debug.Log("Enemy damage dealt : " + damage);
             }
         }
+
+    }
+
+    IEnumerator HideGlowAfterSeconds()
+    {
+        glowEffect.SetActive(true);
+
+        float duration = 0.5f;
+
+        while (duration > 0 ) 
+        {
+            duration -= Time.deltaTime;
+            yield return null; 
+        }
+
+        glowEffect.SetActive(false);
+
     }
 
     public void CreateHitImpact(Vector3 hitPoint, Vector3 normal)

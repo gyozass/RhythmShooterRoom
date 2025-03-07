@@ -20,7 +20,6 @@ public class NoteSpriteMover : MonoBehaviour
         _targetPosition = new Vector2(Screen.width / 2, Screen.height / 2);
     }
 
-    // Update is called once per frame
     void Update()
     {
         _t += Time.deltaTime / _timeToReachTarget;
