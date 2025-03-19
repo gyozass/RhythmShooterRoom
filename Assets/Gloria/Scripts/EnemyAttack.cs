@@ -12,7 +12,6 @@ public class EnemyAttack : MonoBehaviour
         target = FindObjectOfType<PlayerHealth>();
     }
 
-    //Animation Event called
     public void AttackHitEvent()
     {
         if (target == null) 

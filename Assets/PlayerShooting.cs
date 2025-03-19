@@ -137,10 +137,10 @@ public class PlayerShooting : MonoBehaviour
     public float GetDamageBasedOnThreshold(float roundedDifference)
     {
         //Debug.Log(roundedDifference);
-        if (roundedDifference < beatManager._badThreshold && roundedDifference > beatManager._okThreshold) return 5f;
-        if (roundedDifference < beatManager._okThreshold && roundedDifference > beatManager._goodThreshold) return 10f;
-        if (roundedDifference < beatManager._goodThreshold && roundedDifference > beatManager._perfectThreshold) return 20f;
-        if (roundedDifference < beatManager._perfectThreshold && roundedDifference > 0) return 30f;
+        if (roundedDifference < beatManager._badThreshold && roundedDifference > beatManager._okThreshold) return 10f;
+        if (roundedDifference < beatManager._okThreshold && roundedDifference > beatManager._goodThreshold) return 30f;
+        if (roundedDifference < beatManager._goodThreshold && roundedDifference > beatManager._perfectThreshold) return 50f;
+        if (roundedDifference < beatManager._perfectThreshold && roundedDifference > 0) return 100f;
         return 0f;
     }
 }

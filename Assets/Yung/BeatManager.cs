@@ -14,7 +14,7 @@ public class BeatManager : MonoBehaviour{
     [SerializeField] private float _lastClickedTime;
     [SerializeField] private float[] _valHolder = new float[2];
     [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private BeatDataSO beatDataSO;
+    [SerializeField] internal BeatDataSO beatDataSO;
     //[SerializeField] private Beat[] _beats;
     [SerializeField] private GameObject __go_beatEffectObject;
     [SerializeField] private GameObject[] _beatEffectObject;
