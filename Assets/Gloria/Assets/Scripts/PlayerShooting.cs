@@ -19,6 +19,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private Canvas reticleCanvas;
     [SerializeField] private AnimationCurve knockbackCurve;
     [SerializeField] public GameObject glowEffect;
+    [SerializeField] private GameObject gunTip;
     private float range = 100f;
     //private Image clickEffectGlow;
     private CharacterController playerController;
@@ -75,7 +76,7 @@ public class PlayerShooting : MonoBehaviour
 
         float damage = GetDamageBasedOnThreshold(beatManager.roundedDifference);
 
-        StartCoroutine(ShowShootingLine(transform.position, hit.point));
+        StartCoroutine(ShowShootingLine(gunTip.transform.position, hit.point));
 
         if (beatManager.roundedDifference < beatManager._terribleThreshold)
         {

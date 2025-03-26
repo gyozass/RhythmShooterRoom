@@ -18750,6 +18750,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 886519460}
+  - {fileID: 1178017232}
   m_Father: {fileID: 1543181390}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &507128437
@@ -26266,6 +26267,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   glowEffect: {fileID: 271757014}
+  gunTip: {fileID: 1178017231}
   knockbackForce: 8
   knockbackDuration: 1
 --- !u!1 &688928812
@@ -49480,6 +49482,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1177322064}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1178017231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1178017232}
+  m_Layer: 0
+  m_Name: GunTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1178017232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178017231}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.14553246, y: -0.77733207, z: -0.31008378, w: 0.52765834}
+  m_LocalPosition: {x: -25.46975, y: 2.0052629, z: 5.3693166}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 504925114}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1180227800
 GameObject:
   m_ObjectHideFlags: 0
@@ -51703,6 +51736,51 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1664156949}
     m_Modifications:
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _timeToReachTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _animCurve.m_Curve.Array.data[1].time
+      value: 0.99853516
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _animCurve.m_Curve.Array.data[1].value
+      value: -0.0058670044
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _animCurve.m_Curve.Array.data[0].inSlope
+      value: -0.005875611
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _animCurve.m_Curve.Array.data[1].inSlope
+      value: -0.005875611
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _animCurve.m_Curve.Array.data[0].outSlope
+      value: -0.005875611
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _animCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _animCurve.m_Curve.Array.data[1].outSlope
+      value: -0.005875611
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295257232257550268, guid: b9afda8bc538fc545a60ee0b7cad4734,
+        type: 3}
+      propertyPath: _animCurve.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
     - target: {fileID: 7471407309264074859, guid: b9afda8bc538fc545a60ee0b7cad4734,
         type: 3}
       propertyPath: m_Name
