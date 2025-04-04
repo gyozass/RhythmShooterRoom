@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class MeleeEnemyBev : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class MeleeEnemyBev : MonoBehaviour
 
     private void Update()
     {
+        FacePlayer();
         switch (currentState)
         {
             case State.Chasing:
@@ -46,7 +48,6 @@ public class MeleeEnemyBev : MonoBehaviour
                 break;
             case State.PreparingToDash:
                 animator.SetBool("isChasing", true);
-                // Do nothing, waiting for coroutine
                 break;
             case State.Dashing:
                 DashAttack();
@@ -105,5 +106,15 @@ public class MeleeEnemyBev : MonoBehaviour
     private void DeactivateEnemy()
     {
         gameObject.SetActive(false);
+    }
+
+    private void FacePlayer()
+    {
+        if (player == null) return;
+
+        Vector3 direction = (player.position - transform.position).normalized;
+        direction.y = 0; 
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 }

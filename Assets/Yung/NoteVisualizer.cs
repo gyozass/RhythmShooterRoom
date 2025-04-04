@@ -6,6 +6,7 @@ public class NoteVisualizer : MonoBehaviour
 {
     [SerializeField] private bool _stopSpawn;
     [SerializeField] private GameObject[] _noteSprites;        
+    [SerializeField] private GameObject[] _noteSprites2;        
     [SerializeField] private float _spawnInterval;
     [SerializeField] private int _currentToSpawn;
 
@@ -28,7 +29,12 @@ public class NoteVisualizer : MonoBehaviour
     {
         for (int i = 0; i < _noteSprites.Length; i++)
         {
-            _noteSprites[i].SetActive(false);  
+            _noteSprites[i].SetActive(false);
+        }
+
+        for (int i = 0; i < _noteSprites2.Length; i++)
+        {
+            _noteSprites2[i].SetActive(false);
         }
 
         StartCoroutine(SpawnRoutine());
@@ -45,7 +51,13 @@ public class NoteVisualizer : MonoBehaviour
         {
             _noteSprites[_currentToSpawn].SetActive(true);
             _currentToSpawn++;
-        }               
+        }
+
+        if (_currentToSpawn < _noteSprites2.Length)
+        {
+            _noteSprites2[_currentToSpawn].SetActive(true);
+            _currentToSpawn++;
+        }
 
     }
 
@@ -59,8 +71,8 @@ public class NoteVisualizer : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1f);
-            
+            yield return new WaitForSeconds(0.1f);
+            Debug.Log("spawning");
             SpawnNote();
         }
     }

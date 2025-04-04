@@ -5,8 +5,7 @@ using UnityEngine;
 public class NewEnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] _enemyPrefabs;
-    [SerializeField] private Transform _spawnPoint1;
-    [SerializeField] private Transform _spawnPoint2;
+    [SerializeField] private Transform[] _spawnPoints; // Add as many as you want in the Inspector
     private List<GameObject> _spawnedEnemies = new();
     private const int _maxEnemies = 5;
 
@@ -25,7 +24,7 @@ public class NewEnemySpawner : MonoBehaviour
         for (int i = 0; i < _maxEnemies; i++)
         {
             GameObject enemyPrefab = _enemyPrefabs[Random.Range(0, _enemyPrefabs.Length)];
-            Transform spawnPoint = (i < _maxEnemies / 2) ? _spawnPoint1 : _spawnPoint2;
+            Transform spawnPoint = _spawnPoints[i % _spawnPoints.Length]; // Cycle through spawn points
             GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
             _spawnedEnemies.Add(enemy);
         }
@@ -33,18 +32,19 @@ public class NewEnemySpawner : MonoBehaviour
 
     private void CheckEnemyHealth()
     {
-        int aliveEnemies = _spawnedEnemies.Count;
+        int aliveEnemies = 0;
+
         foreach (GameObject enemy in _spawnedEnemies)
         {
-            if (enemy == null)
+            if (enemy != null)
             {
-                aliveEnemies--;
+                aliveEnemies++;
             }
         }
 
-        if (aliveEnemies <= 3)
+        if (aliveEnemies < 3)
         {
-            _spawnedEnemies.Clear();
+            _spawnedEnemies.RemoveAll(e => e == null); // Clean up dead references
             SpawnEnemies();
         }
     }

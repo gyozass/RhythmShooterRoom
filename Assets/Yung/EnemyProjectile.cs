@@ -4,26 +4,16 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
-    public float speed = 10f; 
-    private Vector3 targetPosition;
-
-    public void Initialize(Vector3 playerPosition)
+    private void OnTriggerEnter(Collider hit)
     {
-        targetPosition = playerPosition;
-    }
-
-    void Update()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        if (hit.transform.CompareTag("Player"))
         {
-            Despawn();
+            EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(5f);
+                Debug.Log("Enemy damage dealt : " + 5f);
+            }
         }
-    }
-
-    private void Despawn()
-    {
-        gameObject.SetActive(false);
     }
 }

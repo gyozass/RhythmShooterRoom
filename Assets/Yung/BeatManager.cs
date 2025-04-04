@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using Cinemachine;
 using Unity.PlasticSCM.Editor.WebApi;
+using TMPro;
 
 public class BeatManager : MonoBehaviour{
     
@@ -18,6 +19,7 @@ public class BeatManager : MonoBehaviour{
     //[SerializeField] private Beat[] _beats;
     [SerializeField] private GameObject __go_beatEffectObject;
     [SerializeField] private GameObject[] _beatEffectObject;
+    [SerializeField] private TextMeshProUGUI textMeshProUGUI;
     public float xOffset = 0f;
     public float roundedDifference;
 
@@ -35,6 +37,7 @@ public class BeatManager : MonoBehaviour{
 
     private void Start()
     {
+        textMeshProUGUI = FindObjectOfType<TextMeshProUGUI>();  
         //for repositioning the gameobject when spawned
         Vector3 offsetVector = new();
 
@@ -88,28 +91,45 @@ public class BeatManager : MonoBehaviour{
         }
         else if(roundedDifference > _badThreshold)
         {
+            textMeshProUGUI.text = "terrible".ToString();
+            DisappearJudgementText();
             Debug.Log("terrible");
         }
         else if (roundedDifference > _okThreshold)
         {
+            textMeshProUGUI.text = "bad".ToString();
+            DisappearJudgementText();
             Debug.Log("bad");
         }
         else if (roundedDifference > _goodThreshold)
         {
+            textMeshProUGUI.text = "ok".ToString();
+            DisappearJudgementText();
             Debug.Log("ok");
         }
         else if (roundedDifference > _perfectThreshold)
         {
+            textMeshProUGUI.text = "good".ToString();
+            DisappearJudgementText();
             Debug.Log("good");
         }
 
         else 
         {
+            textMeshProUGUI.text = "perfect".ToString();
+            DisappearJudgementText();
             Debug.Log("perfect");
         }
 
+        
+
     }
 
+    IEnumerator DisappearJudgementText()
+    {
+        yield return new WaitForSeconds(1);
+        textMeshProUGUI.text = "".ToString();   
+    }
     public float GetValue(int value)
     {
         //[0] - sample size

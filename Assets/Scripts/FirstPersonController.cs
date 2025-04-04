@@ -54,11 +54,13 @@ namespace StarterAssets
 		// cinemachine
 		private float _cinemachineTargetPitch;
 
-		// player
-		internal float _speed;
+		[SerializeField] private float _gravModifier;
+
+        // player
+        internal float _speed;
 		private float _rotationVelocity;
 		internal float _verticalVelocity;
-		private float _terminalVelocity = 53.0f;
+		private float _terminalVelocity = 60.0f;
 		//internal Vector3 directionalVector;
 
 		// timeout deltatime
@@ -240,10 +242,17 @@ namespace StarterAssets
 				_input.jump = false;
 			}
 
+
+
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 			if (_verticalVelocity < _terminalVelocity)
 			{
-				_verticalVelocity += Gravity * Time.deltaTime;
+				Debug.Log("vertical velocity");
+				_verticalVelocity += Gravity * _gravModifier * Time.deltaTime;
+			}
+			else
+			{
+				Debug.Log("dont apply grav");
 			}
 		}
 

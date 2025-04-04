@@ -16,13 +16,20 @@ public class RangedEnemyBev : MonoBehaviour
     private Transform _player;
     private NavMeshAgent _agent;
     private float _shootTimer;
+    //private HighlightManager _hmManager;
 
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _animator = GetComponent<Animator>();
+       // _hmManager = GetComponent<HighlightManager>();  
+
+        if(_animator == null)
+            _animator = GetComponentInChildren<Animator>();
+
         _currentState = State.Chasing;
+       // _hmManager.DeselectHighlight();
     }
 
     private void Update()
@@ -43,6 +50,8 @@ public class RangedEnemyBev : MonoBehaviour
                 StopChasing();
                 break;
         }
+
+       // _hmManager.SelectedHighlight();
     }
 
     private void ChasePlayer()

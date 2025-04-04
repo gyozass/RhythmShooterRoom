@@ -15,11 +15,13 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private BeatManager beatManager;
     [SerializeField] private GameObject hitEffect;
+    [SerializeField] private GameObject muzzleEffect;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Canvas reticleCanvas;
     [SerializeField] private AnimationCurve knockbackCurve;
     [SerializeField] public GameObject glowEffect;
     [SerializeField] private GameObject gunTip;
+    public float recoilForce = 5f; 
     private float range = 100f;
     //private Image clickEffectGlow;
     private CharacterController playerController;
@@ -133,6 +135,7 @@ public class PlayerShooting : MonoBehaviour
         lineRenderer.SetPosition(1, end);
         yield return new WaitForSeconds(0.2f);
         lineRenderer.enabled = false;
+        Instantiate(muzzleEffect, gunTip.transform.position, Quaternion.identity);
     }
 
     public float GetDamageBasedOnThreshold(float roundedDifference)

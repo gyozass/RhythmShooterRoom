@@ -28,10 +28,11 @@ public class NoteSpriteMover : MonoBehaviour
     void Update()
     {
         _t += Time.deltaTime / _timeToReachTarget;
-        _animCurve.Evaluate(_t);
-        image.color += new Color(0f, 0f, 0f, 1f);
+         //_animCurve.Evaluate(_t);
+        float targetAlpha =_t;
+        image.color = new Color(1f, 1f, 1f, targetAlpha);
 
-        if (_t >= 0.9f)
+        if (_t >= 0.95f)
         {
             ResetObject();  
         }
@@ -47,11 +48,12 @@ public class NoteSpriteMover : MonoBehaviour
 
     public void ResetObject()
     {
+        Debug.Log(name + " reached");
+        Color color = new Color(image.color.r, image.color.g, image.color.b, 0f);
         gameObject.SetActive(false);
         _t = 0;
         transform.position = _startPosition;
         OnReset();
-
 
     }
 
