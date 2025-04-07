@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -9,6 +10,8 @@ public class MeleeEnemyBev : MonoBehaviour
     private enum State { Chasing, PreparingToDash, Dashing }
 
     [SerializeField] private float EnemyDamage;
+
+    bool hasDealtDamage = false;
 
     [Header("Settings")]
     public float attackRange = 5f; 
@@ -99,8 +102,13 @@ public class MeleeEnemyBev : MonoBehaviour
 
     private void DashAttack()
     {
-        playerHealth.TakeDamage(EnemyDamage);
+        if (!hasDealtDamage)
+        {
+            playerHealth.TakeDamage(EnemyDamage);
+        }
+
         animator.SetBool("isChasing", false);
+        hasDealtDamage = true;
     }
 
     private void DeactivateEnemy()
