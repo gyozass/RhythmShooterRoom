@@ -1718,10 +1718,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.2301111
-  m_Height: 6.0919547
+  m_Radius: 2.3104541
+  m_Height: 10.2316265
   m_Direction: 1
-  m_Center: {x: 0, y: 2.89, z: 0}
+  m_Center: {x: -0.0053548813, y: 2.6642065, z: 0.3029039}
 --- !u!95 &6910234144141833905
 Animator:
   serializedVersion: 5

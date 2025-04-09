@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class PlayerShooting : MonoBehaviour
 {
     [SerializeField] private Camera FPCamera;
-    [SerializeField] private GameObject bulletPrefab;
+    //[SerializeField] private GameObject bulletPrefab;
     [SerializeField] private BeatManager beatManager;
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private GameObject muzzleEffect;
@@ -21,12 +21,14 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private AnimationCurve knockbackCurve;
     [SerializeField] public GameObject glowEffect;
     [SerializeField] private GameObject gunTip;
+    [SerializeField] private Animation gunRecoil;
     public float recoilForce = 5f; 
     private float range = 100f;
     //private Image clickEffectGlow;
     private CharacterController playerController;
     private FirstPersonController firstPersonController;
-    private RaycastHit hit;
+    public RaycastHit hit;
+    public bool isWithinThreshold = false;
 
     private Vector3 _knockbackDirection;
     [SerializeField] private float knockbackForce = 20f;
@@ -39,6 +41,7 @@ public class PlayerShooting : MonoBehaviour
 
         playerController = FindObjectOfType<CharacterController>();
         firstPersonController = FindObjectOfType<FirstPersonController>();
+        gunRecoil = FindObjectOfType<Animation>();
     }
 
     private void Update()
@@ -82,8 +85,10 @@ public class PlayerShooting : MonoBehaviour
 
         if (beatManager.roundedDifference < beatManager._terribleThreshold)
         {
+            isWithinThreshold = true;
             CreateHitImpact(hit.point, hit.normal);
             ApplyKnockback();
+            gunRecoil.Play();
 
             StartCoroutine(HideGlowAfterSeconds());
         }
@@ -133,6 +138,7 @@ public class PlayerShooting : MonoBehaviour
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, start);
         lineRenderer.SetPosition(1, end);
+
         yield return new WaitForSeconds(0.2f);
         lineRenderer.enabled = false;
         Instantiate(muzzleEffect, gunTip.transform.position, Quaternion.identity);
@@ -147,4 +153,5 @@ public class PlayerShooting : MonoBehaviour
         if (roundedDifference < beatManager._perfectThreshold && roundedDifference > 0) return 100f;
         return 0f;
     }
+
 }

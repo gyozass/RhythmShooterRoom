@@ -5,27 +5,32 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-   // public MMFeedbacks HitFeedback;
-   // public MMFeedbacks ShakeFeedback;
     [SerializeField] float hitPoints = 100f;
-    RaycastHit hit;
-    Weapon weapon;
+    [SerializeField] Color damageColor = Color.red;
+    [SerializeField] float flickerDuration = 2f;
 
+    private Color originalColor;
+    private MeshRenderer rend;
+    private bool isFlickering = false;
 
     private void Start()
     {
-     //  HitFeedback?.Initialization(this.gameObject);
-     //  ShakeFeedback?.Initialization(this.gameObject);
+        rend = GetComponentInChildren<MeshRenderer>();
+        if (rend != null)
+        {
+            originalColor = rend.material.color;
+        }
     }
 
     public void TakeDamage(float damage)
     {
-        BroadcastMessage("OnDamageTaken");
+        BroadcastMessage("OnDamageTaken", SendMessageOptions.DontRequireReceiver);
         hitPoints -= damage;
 
-      // ShakeFeedback?.PlayFeedbacks(this.transform.position);
-      // HitFeedback?.PlayFeedbacks(this.transform.position);
-
+        if (!isFlickering && rend != null)
+        {
+            StartCoroutine(FlickerColor());
+        }
 
         if (hitPoints <= 0)
         {
@@ -33,7 +38,21 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    private IEnumerator FlickerColor()
+    {
+        isFlickering = true;
+        float timer = 0f;
 
+        while (timer < flickerDuration)
+        {
+            rend.material.color = damageColor;
+            yield return new WaitForSeconds(1f);
+            rend.material.color = originalColor;
+            yield return new WaitForSeconds(1f);
+            timer += 2f;
+        }
 
-
+        rend.material.color = originalColor;
+        isFlickering = false;
+    }
 }

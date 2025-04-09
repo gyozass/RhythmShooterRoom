@@ -55,10 +55,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.8758562
-  m_Height: 10.1711645
+  m_Radius: 3.8775294
+  m_Height: 21.00656
   m_Direction: 1
-  m_Center: {x: 0.12513733, y: 4.6943135, z: -0.099999905}
+  m_Center: {x: 0.2097094, y: 4.3803453, z: -0.099999905}
 --- !u!195 &7377401968687168062
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -69,7 +69,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 50
+  m_Speed: 30
   m_Acceleration: 20
   avoidancePriority: 5
   m_AngularSpeed: 120
@@ -106,12 +106,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37818147ce958947a97b2b25acb5520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stopRadius: 20
+  _stopRadius: 30
   _bulletPrefab: {fileID: 8761174498005403512, guid: 3c1a6555fbbd519428287832f7c30f34,
     type: 3}
   _weaponRoot: {fileID: 3112079342986563221}
   _shootInterval: 2
-  _bulletSpeed: 30
+  _bulletSpeed: 25
 --- !u!1001 &5603226332424880591
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class MeleeEnemyBev : MonoBehaviour
     private enum State { Chasing, PreparingToDash, Dashing }
 
     [SerializeField] private float EnemyDamage;
+    [SerializeField] private GameObject groundAttackEffect;
 
     bool hasDealtDamage = false;
 
@@ -109,10 +110,13 @@ public class MeleeEnemyBev : MonoBehaviour
 
         animator.SetBool("isChasing", false);
         hasDealtDamage = true;
+
+        Instantiate(groundAttackEffect,gameObject.transform.position, Quaternion.identity);
     }
 
     private void DeactivateEnemy()
     {
+        groundAttackEffect.SetActive(false);    
         gameObject.SetActive(false);
     }
 

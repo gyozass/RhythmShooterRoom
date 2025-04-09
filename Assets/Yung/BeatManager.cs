@@ -33,6 +33,7 @@ public class BeatManager : MonoBehaviour{
     {
         GameController.OnLastClick -= SetLastClickedTime;
         GameController.OnLastClick -= DetermineHit;
+
     }
 
     private void Start()
@@ -92,50 +93,44 @@ public class BeatManager : MonoBehaviour{
         else if(roundedDifference > _badThreshold)
         {
             textMeshProUGUI.text = "terrible".ToString();
-            DisappearJudgementText();
             Debug.Log("terrible");
         }
         else if (roundedDifference > _okThreshold)
         {
             textMeshProUGUI.text = "bad".ToString();
-            DisappearJudgementText();
             Debug.Log("bad");
         }
         else if (roundedDifference > _goodThreshold)
         {
             textMeshProUGUI.text = "ok".ToString();
-            DisappearJudgementText();
             Debug.Log("ok");
         }
         else if (roundedDifference > _perfectThreshold)
         {
             textMeshProUGUI.text = "good".ToString();
-            DisappearJudgementText();
             Debug.Log("good");
         }
 
         else 
         {
             textMeshProUGUI.text = "perfect".ToString();
-            DisappearJudgementText();
             Debug.Log("perfect");
         }
 
-        
-
+        Invoke("DisableText", 0.8f);
     }
 
-    IEnumerator DisappearJudgementText()
-    {
-        yield return new WaitForSeconds(1);
-        textMeshProUGUI.text = "".ToString();   
-    }
     public float GetValue(int value)
     {
         //[0] - sample size
         //[1] - last clicked time        
 
         return _valHolder[value];
+    }
+
+    void DisableText()
+    {
+        textMeshProUGUI.text = "";
     }
 }
 
