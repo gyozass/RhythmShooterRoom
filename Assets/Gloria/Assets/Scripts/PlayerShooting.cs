@@ -22,6 +22,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] public GameObject glowEffect;
     [SerializeField] private GameObject gunTip;
     [SerializeField] private Animation gunRecoil;
+    [SerializeField] float showLineDuration = 0.2f;
     public float recoilForce = 5f; 
     private float range = 100f;
     //private Image clickEffectGlow;
@@ -29,6 +30,7 @@ public class PlayerShooting : MonoBehaviour
     private FirstPersonController firstPersonController;
     public RaycastHit hit;
     public bool isWithinThreshold = false;
+
 
     private Vector3 _knockbackDirection;
     [SerializeField] private float knockbackForce = 20f;
@@ -135,13 +137,14 @@ public class PlayerShooting : MonoBehaviour
 
     private IEnumerator ShowShootingLine(Vector3 start, Vector3 end)
     {
+        Instantiate(muzzleEffect, gunTip.transform.position, Quaternion.identity);
+
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, start);
         lineRenderer.SetPosition(1, end);
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(showLineDuration);
         lineRenderer.enabled = false;
-        Instantiate(muzzleEffect, gunTip.transform.position, Quaternion.identity);
     }
 
     public float GetDamageBasedOnThreshold(float roundedDifference)

@@ -2685,6 +2685,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 100
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  flickerDuration: 2
 --- !u!114 &6307227644414589815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2713,7 +2715,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1528915638184230}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.03
+  m_Radius: 0.05
   m_Speed: 30
   m_Acceleration: 100
   avoidancePriority: 1
@@ -2725,7 +2727,7 @@ NavMeshAgent:
   m_Height: 0.1
   m_BaseOffset: 0
   m_WalkableMask: 5
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 0
 --- !u!136 &8203097009764480764
 CapsuleCollider:
   m_ObjectHideFlags: 0
