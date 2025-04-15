@@ -75,7 +75,7 @@ public class CircleScript : MonoBehaviour {
         float loopFraction = (beat - 1) / Conductor.instance.timeSig;
         float distanceFromCenter = loopFraction * ringDistance;
         Debug.Log("Distance: " + distanceFromCenter);
-        float circleX = this.gameObject.transform.localPosition.x + distanceFromCenter;
+        float circleX = this.gameObject.transform.localPosition.x + (ringDistance - distanceFromCenter);
         //float circleY = this.gameObject.transform.localPosition.y;
         //Debug.Log("Setting circle to (" + circleX + ", " + circleY + ")");
         this.gameObject.transform.localPosition = new Vector3(circleX, 0, 0);        
