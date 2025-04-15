@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca36fbcc38f87314d9f095aad4e855f9, type: 3}
+  m_Name: 120 BPM Music
+  m_EditorClassIdentifier: 
+  bpm: 120
+  metronomeClip: {fileID: 8300000, guid: d569db8d6a663604db0cb24ddd55c160, type: 3}
+  timeSig: 16
+  beatThreshold: 0.45
+  simultaneousRings: 1
+  rings:
+  - notesToTelegraph: 2
+    ringKeycode: 323
+    ringTrack: {fileID: 8300000, guid: 6f0ff21eb88987e4a9619974da58aa17, type: 3}
+    ringSample: {fileID: 8300000, guid: 59cd0d6a082948b4abec4c119137a9db, type: 3}
+    useMelody: 0
+    beats:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    melodyNotes: []
+  - notesToTelegraph: 2
+    ringKeycode: 323
+    ringTrack: {fileID: 8300000, guid: 19bdacd4fcc1afd448e407c12e8906e5, type: 3}
+    ringSample: {fileID: 8300000, guid: bacb8536f2eb10d4b9242ad6d9b0cb94, type: 3}
+    useMelody: 0
+    beats:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    melodyNotes: []
