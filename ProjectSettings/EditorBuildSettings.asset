@@ -5,15 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Gloria/Scenes/MainScene.unity
+  - enabled: 1
+    path: Assets/Gloria/Assets/Scenes/MainScene.unity
     guid: 707acc8dffb72b144bb1ffbe1c965f3d
-  - enabled: 1
-    path: Assets/Yung2/Scenes_Yung2/MainMenu_Yung2.unity
-    guid: 2c50b76d5d722274fa02d06f1f436b66
-  - enabled: 1
-    path: Assets/Yung2/Scenes_Yung2/MainScene_Yung2.unity
-    guid: e3e6eb97ad8496643a147bc9742368ae
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}
