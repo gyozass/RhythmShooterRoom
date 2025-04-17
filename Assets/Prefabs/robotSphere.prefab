@@ -2612,10 +2612,10 @@ GameObject:
   - component: {fileID: 4431084402279646}
   - component: {fileID: 114253073084258262}
   - component: {fileID: 95320324289322388}
-  - component: {fileID: 6338397165161936671}
   - component: {fileID: 6307227644414589815}
   - component: {fileID: 2615569565674863715}
   - component: {fileID: 8203097009764480764}
+  - component: {fileID: 604974856805580333}
   m_Layer: 6
   m_Name: robotSphere
   m_TagString: Enemy
@@ -2672,21 +2672,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6338397165161936671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528915638184230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee415dbd986c1514e8361fa66a6b3682, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitPoints: 100
-  damageColor: {r: 1, g: 0, b: 0, a: 1}
-  flickerDuration: 2
 --- !u!114 &6307227644414589815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,6 +2736,33 @@ CapsuleCollider:
   m_Height: 0.0970443
   m_Direction: 1
   m_Center: {x: -0.0021721267, y: 0.04696838, z: 0}
+--- !u!114 &604974856805580333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528915638184230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24de3514ecade1040b84ff6f22fa642b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 100
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  flickerDuration: 2
+  robotDieEffect: {fileID: 1193953125369175018, guid: 7d39067bead4bc14aa0b451564aa5198,
+    type: 3}
+  rend:
+  - {fileID: 23807701781441998}
+  - {fileID: 23577412774978504}
+  - {fileID: 23449536063904852}
+  - {fileID: 23718386697649108}
+  - {fileID: 23041018148824028}
+  - {fileID: 23354731223313820}
+  - {fileID: 23927271497399780}
+  - {fileID: 23776756412539786}
+  - {fileID: 23625218534869158}
 --- !u!1 &1533244445735912
 GameObject:
   m_ObjectHideFlags: 0
