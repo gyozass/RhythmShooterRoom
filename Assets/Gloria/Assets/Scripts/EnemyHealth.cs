@@ -45,7 +45,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void RobotDie()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
         Instantiate(robotDieEffect, transform.position, Quaternion.identity);
         robotDieEffect.SetActive(false);
     }

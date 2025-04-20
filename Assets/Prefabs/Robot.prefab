@@ -95,7 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 100
   damageColor: {r: 1, g: 0, b: 0, a: 1}
-  flickerDuration: 1
+  flickerDuration: 1.5
   robotDieEffect: {fileID: 1193953125369175018, guid: 7d39067bead4bc14aa0b451564aa5198,
     type: 3}
   rend:
@@ -117,12 +117,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37818147ce958947a97b2b25acb5520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stopRadius: 30
+  _stopRadius: 40
   _bulletPrefab: {fileID: 8761174498005403512, guid: 3c1a6555fbbd519428287832f7c30f34,
     type: 3}
   _weaponRoot: {fileID: 3112079342986563221}
   _shootInterval: 2
-  _bulletSpeed: 25
+  _bulletSpeed: 35
 --- !u!1001 &5603226332424880591
 PrefabInstance:
   m_ObjectHideFlags: 0
