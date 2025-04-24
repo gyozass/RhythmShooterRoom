@@ -11,30 +11,38 @@ using UnityEngine.UI;
 
 public class PlayerShooting : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private Camera FPCamera;
     //[SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private BeatManager beatManager;
+    //[SerializeField] private AdvBeatManager beatManager;
+    [SerializeField] private MusicNote musicNote;
+    [SerializeField] private Canvas reticleCanvas;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private AnimationCurve knockbackCurve;
+    private CharacterController playerController;
+    private FirstPersonController firstPersonController;
+    public RaycastHit hit;
+    private PlayerInput playerInput;
+    private InputAction fireAction;
+
+    [Header("Effects")]
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private GameObject muzzleEffect;
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private Canvas reticleCanvas;
-    [SerializeField] private AnimationCurve knockbackCurve;
-    [SerializeField] public GameObject glowEffect;
-    [SerializeField] private GameObject gunTip;
+    [SerializeField] private GameObject glowEffect;
     [SerializeField] private Animation gunRecoil;
+
+    [Header("Position")]
+    [SerializeField] private GameObject gunTip;
+    private Vector3 _knockbackDirection;
+    public bool isWithinThreshold = false;
+
+    [Header("Values")]
     [SerializeField] float showLineDuration = 0.2f;
     public float recoilForce = 5f; 
     private float range = 100f;
     //private Image clickEffectGlow;
-    private CharacterController playerController;
-    private FirstPersonController firstPersonController;
-    public RaycastHit hit;
-    public bool isWithinThreshold = false;
-
-
-    private Vector3 _knockbackDirection;
     [SerializeField] private float knockbackForce = 20f;
-    [SerializeField] private float knockbackDuration = 0.5f; 
+    [SerializeField] private float knockbackDuration = 0.5f;
 
     private void Start()
     {
@@ -44,15 +52,19 @@ public class PlayerShooting : MonoBehaviour
         playerController = FindObjectOfType<CharacterController>();
         firstPersonController = FindObjectOfType<FirstPersonController>();
         gunRecoil = FindObjectOfType<Animation>();
+
+        playerInput = FindObjectOfType<PlayerInput>(); 
+        fireAction = playerInput.actions["Fire"];
+        fireAction.performed += ctx => Shoot(); 
     }
 
-    private void Update()
-    {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            Shoot();
-        }
-    }
+  //private void Update()
+  //{
+  //    if (Mouse.current.leftButton.wasPressedThisFrame)
+  //    {
+  //        Shoot();
+  //    }
+  //}
 
     public void ApplyKnockback()
     {
@@ -81,20 +93,20 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        float damage = GetDamageBasedOnThreshold(beatManager.roundedDifference);
-
+        float damage = GetDamageBasedOnThreshold(musicNote.currentOffset);
+    
         StartCoroutine(ShowShootingLine(gunTip.transform.position, hit.point));
-
-        if (beatManager.roundedDifference < beatManager._terribleThreshold)
+    
+        if (musicNote.currentOffset < musicNote._okPercentage)
         {
             isWithinThreshold = true;
             CreateHitImpact(hit.point, hit.normal);
             ApplyKnockback();
             gunRecoil.Play();
-
+    
             StartCoroutine(HideGlowAfterSeconds());
         }
-
+    
         if (hit.transform.CompareTag("Enemy"))
         {
             EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
@@ -150,11 +162,15 @@ public class PlayerShooting : MonoBehaviour
     public float GetDamageBasedOnThreshold(float roundedDifference)
     {
         //Debug.Log(roundedDifference);
-        if (roundedDifference < beatManager._badThreshold && roundedDifference > beatManager._okThreshold) return 10f;
-        if (roundedDifference < beatManager._okThreshold && roundedDifference > beatManager._goodThreshold) return 30f;
-        if (roundedDifference < beatManager._goodThreshold && roundedDifference > beatManager._perfectThreshold) return 50f;
-        if (roundedDifference < beatManager._perfectThreshold && roundedDifference > 0) return 100f;
+      if (roundedDifference < musicNote. _okPercentage && roundedDifference > musicNote._goodPercentage) return 30f;
+      if (roundedDifference < musicNote._goodPercentage && roundedDifference > musicNote._perfectPercentage) return 50f;
+      if (roundedDifference < musicNote._perfectPercentage && roundedDifference > 0) return 100f;
         return 0f;
+    }
+    private void OnDestroy()
+    {
+        if (fireAction != null)
+            fireAction.performed -= ctx => Shoot();
     }
 
 }

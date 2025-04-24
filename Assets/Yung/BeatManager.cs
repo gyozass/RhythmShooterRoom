@@ -20,6 +20,7 @@ public class BeatManager : MonoBehaviour{
     [SerializeField] private GameObject __go_beatEffectObject;
     [SerializeField] private GameObject[] _beatEffectObject;
     [SerializeField] private TextMeshProUGUI textMeshProUGUI;
+    [SerializeField] TimelineEvents _timelineEvents;
     public float xOffset = 0f;
     public float roundedDifference;
 
@@ -38,7 +39,7 @@ public class BeatManager : MonoBehaviour{
 
     private void Start()
     {
-        textMeshProUGUI = FindObjectOfType<TextMeshProUGUI>();  
+      //  textMeshProUGUI = FindObjectOfType<TextMeshProUGUI>();  
         //for repositioning the gameobject when spawned
         Vector3 offsetVector = new();
 
@@ -81,43 +82,51 @@ public class BeatManager : MonoBehaviour{
                  _perfectThreshold = 0.05f;
 
     public void DetermineHit()
-    {   
+    {
+        textMeshProUGUI = FindObjectOfType<TextMeshProUGUI>();
         float roundedValue = (float)Math.Round(_valHolder[1]);
         roundedDifference = Mathf.Abs(roundedValue - _valHolder[1]);
-        Debug.Log(roundedDifference);
 
-        if (roundedDifference > _terribleThreshold)
-        {
-            Debug.Log("miss");
-        }
-        else if(roundedDifference > _badThreshold)
-        {
-            textMeshProUGUI.text = "terrible".ToString();
-            Debug.Log("terrible");
-        }
-        else if (roundedDifference > _okThreshold)
-        {
-            textMeshProUGUI.text = "bad".ToString();
-            Debug.Log("bad");
-        }
-        else if (roundedDifference > _goodThreshold)
-        {
-            textMeshProUGUI.text = "ok".ToString();
-            Debug.Log("ok");
-        }
-        else if (roundedDifference > _perfectThreshold)
-        {
-            textMeshProUGUI.text = "good".ToString();
-            Debug.Log("good");
-        }
+            if (roundedDifference > _terribleThreshold)
+            {
+                Debug.Log("miss");
+            }
+            else if (roundedDifference > _badThreshold)
+            {
+                textMeshProUGUI.text = "Terrible".ToString();
+                Debug.Log("terrible");
+                _timelineEvents.OnPlayerShot("Bad");
 
-        else 
-        {
-            textMeshProUGUI.text = "perfect".ToString();
+        }
+            else if (roundedDifference > _okThreshold)
+            {
+                textMeshProUGUI.text = "Bad".ToString();
+                _timelineEvents.OnPlayerShot("Bad");
+                Debug.Log("bad");
+            }
+            else if (roundedDifference > _goodThreshold)
+            {
+                textMeshProUGUI.text = "ok".ToString();
+                _timelineEvents.OnPlayerShot("Bad");
+                Debug.Log("ok");
+            }
+            else if (roundedDifference > _perfectThreshold)
+            {
+                textMeshProUGUI.text = "great".ToString();
+                Debug.Log("great");
+                _timelineEvents.OnPlayerShot("Bad");
+            }
+
+            else
+            {
+                textMeshProUGUI.text = "perfect".ToString();
+            _timelineEvents.OnPlayerShot("Perfect");
             Debug.Log("perfect");
-        }
+            }
 
-        Invoke("DisableText", 0.8f);
+
+            Invoke("DisableText", 0.6f);
+
     }
 
     public float GetValue(int value)
