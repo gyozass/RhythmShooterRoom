@@ -38,6 +38,7 @@ public class TimelineEvents : MonoBehaviour
     private bool hasRespondedToShot = false;
 
     private PlayableDirector director;
+    [SerializeField] AdvBeatManager advBeatManager;
 
     void Start()
     {
@@ -69,17 +70,21 @@ public class TimelineEvents : MonoBehaviour
     // 1. Initial UI-only tutorial & waiting for shot
     public void StartTutorial1()
     {
-      //  crosshairUI.SetActive(true);
+        //  crosshairUI.SetActive(true);
         director.Pause();
 
         hasCompletedUIOnly = true;
         hasRespondedToShot = false;
 
+        crosshairUI.SetActive(true);
+
+        StartCoroutine(advBeatManager.CountDown());
         DialogueSystem.Instance.OnDialogueEnd.AddListener(() =>
         {
             // After tutorial dialogue ends, wait for OnPlayerShot to fire
         });
         DialogueSystem.Instance.StartDialogue(shootTutDialogue);
+
     }
 
     // Called by your shooting system via SendMessage or UnityEvent
@@ -184,5 +189,14 @@ public class TimelineEvents : MonoBehaviour
         fadeCanvas.blocksRaycasts = false;
         fadeCanvas.interactable = false;
         fadeCanvas.gameObject.SetActive(false);
+    }
+
+    public void PauseTimeline()
+    {
+        if (director != null)
+        {
+            director.Pause();
+            Debug.Log("Timeline paused after camera pan and player push.");
+        }
     }
 }

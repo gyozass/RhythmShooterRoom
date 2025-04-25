@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class DoorOpen : MonoBehaviour
 {
@@ -18,13 +19,17 @@ public class DoorOpen : MonoBehaviour
 
     private bool isOpening = false;
 
+    [SerializeField] private PlayableDirector director;
+    private bool hasTriggered = false;
+
     void Start()
     {
         leftStartPos = doorLeft.position;
         rightStartPos = doorRight.position;
 
-        leftTargetPos = leftStartPos + Vector3.left * slideDistance;
-        rightTargetPos = rightStartPos + Vector3.right * slideDistance;
+        leftTargetPos = leftStartPos + Vector3.forward * slideDistance;
+        rightTargetPos = rightStartPos + -Vector3.forward * slideDistance;
+        Debug.Log("dist! " + leftTargetPos);
     }
 
     void Update()
@@ -32,14 +37,21 @@ public class DoorOpen : MonoBehaviour
         if (isOpening)
         {
             doorLeft.position = Vector3.MoveTowards(doorLeft.position, leftTargetPos, Time.deltaTime * slideSpeed);
+            Debug.Log("dist! " + leftTargetPos);
+            Debug.Log("dist! " + doorLeft.position);
             doorRight.position = Vector3.MoveTowards(doorRight.position, rightTargetPos, Time.deltaTime * slideSpeed);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
+        if (hasTriggered) return;
+
         if (other.CompareTag(triggeringTag))
         {
+            hasTriggered = true;
+            director.Resume(); 
+            gameObject.SetActive(false);
             isOpening = true;
         }
     }

@@ -26,6 +26,7 @@ public class MusicNote : MonoBehaviour
 	public Color missColor;
 	private Color defaultColor;
 	[SerializeField] private SpriteRenderer spriteRenderer;
+    public HitType currentHitType;
     //[SerializeField] private Image _image;
 
     private void Awake()

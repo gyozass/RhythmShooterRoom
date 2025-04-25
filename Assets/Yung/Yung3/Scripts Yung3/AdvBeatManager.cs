@@ -41,7 +41,7 @@ public class AdvBeatManager : MonoBehaviour
 
     //Dynamic Song info
     [Header("Runtime")]
-    [SerializeField] private bool _musicStarted = false;
+    public bool _musicStarted = false;
     public float secPerBeat;    //the duration of a beat      secondsPerBeat                      
     public float songPosition;    //the current position of the song (in seconds)
     public float songPosInBeats;    //the current position of the song (in beats)    
@@ -67,6 +67,7 @@ public class AdvBeatManager : MonoBehaviour
     [SerializeField] private TimelineEvents timelineEvents;
 
     [SerializeField] MusicNote musicNote;
+
 
 
     private void Awake()
@@ -100,7 +101,7 @@ public class AdvBeatManager : MonoBehaviour
         notesOnScreen = new Queue<MusicNote>();
         nextIndex = 0;
 
-        StartCoroutine(CountDown());
+        //StartCoroutine(CountDown());
 
     }
 
@@ -114,7 +115,7 @@ public class AdvBeatManager : MonoBehaviour
     }
 
 
-    IEnumerator CountDown()
+    public IEnumerator CountDown()
     {
         yield return new WaitForSeconds(1f);
         announcementAnimator.SetTrigger("getReady");
@@ -269,6 +270,7 @@ public class AdvBeatManager : MonoBehaviour
         // 1) Pop the next note
         MusicNote note = notesOnScreen.Peek();
         HitResult result = note.CheckIfHit();
+        musicNote.currentHitType = result.type;
 
         // 2) Update your debug UI
         if (showDebugPanel)

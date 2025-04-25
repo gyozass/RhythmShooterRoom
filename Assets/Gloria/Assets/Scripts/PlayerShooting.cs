@@ -93,8 +93,8 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        float damage = GetDamageBasedOnThreshold(musicNote.currentOffset);
-    
+        float damage = GetDamageBasedOnHitType(musicNote.currentHitType);
+
         StartCoroutine(ShowShootingLine(gunTip.transform.position, hit.point));
     
         if (musicNote.currentOffset < musicNote._okPercentage)
@@ -159,13 +159,19 @@ public class PlayerShooting : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
-    public float GetDamageBasedOnThreshold(float roundedDifference)
+    public float GetDamageBasedOnHitType(HitType hitType)
     {
-        //Debug.Log(roundedDifference);
-      if (roundedDifference < musicNote. _okPercentage && roundedDifference > musicNote._goodPercentage) return 30f;
-      if (roundedDifference < musicNote._goodPercentage && roundedDifference > musicNote._perfectPercentage) return 50f;
-      if (roundedDifference < musicNote._perfectPercentage && roundedDifference > 0) return 100f;
-        return 0f;
+        switch (hitType)
+        {
+            case HitType.Perfect:
+                return 100f;
+            case HitType.Good:
+                return 50f;
+            case HitType.Okay:
+                return 30f;
+            default:
+                return 0f;
+        }
     }
     private void OnDestroy()
     {
