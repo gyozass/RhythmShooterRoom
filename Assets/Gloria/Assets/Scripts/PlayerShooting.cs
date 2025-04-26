@@ -48,10 +48,6 @@ public class PlayerShooting : MonoBehaviour
 
     private void Start()
     {
-<<<<<<< HEAD
-=======
-        playerScore = GetComponent<PlayerScore>();
->>>>>>> parent of e647d8e (prechange shooting + score not working)
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
 
@@ -109,11 +105,9 @@ public class PlayerShooting : MonoBehaviour
 
         if (hitResult.offset < musicNote._okPercentage) // Use the offset from the hitResult
         {
-            isWithinThreshold = true;
             CreateHitImpact(hit.point, hit.normal);
             ApplyKnockback();
             gunRecoil.Play();
-<<<<<<< HEAD
             isWithinThreshold = true;
 
 
@@ -124,9 +118,6 @@ public class PlayerShooting : MonoBehaviour
                 playerScore.AddScore(hitResult); // Pass the HitResult to AddScore
             }
 
-=======
-    
->>>>>>> parent of e647d8e (prechange shooting + score not working)
             StartCoroutine(HideGlowAfterSeconds());
         }
 
