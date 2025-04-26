@@ -297,7 +297,7 @@ public class AdvBeatManager : MonoBehaviour
         hitText.text = result.type.ToString().ToLower();
 
         // 5) Fire your Timeline event
-        timelineEvents.OnPlayerShot(result.type.ToString());
+        timelineEvents.OnPlayerShot(result.type);
 
         // 6) Store offset for PlayerShooting
         musicNote.currentOffset = result.offset;

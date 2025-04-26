@@ -9,8 +9,8 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Spawn")]
     public List<Transform> spawnPoints;
-    public int spawnAmount = 10;
-    public float spawnRadius = 5f;
+    public int spawnAmount = 20;
+    public float spawnRadius = 100f;
 
     [Header("Wave")]
     public float waveCooldown = 3f;
@@ -35,7 +35,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnAtRandomPoint()
     {
-        if (spawnPoints.Count == 0)
+        if (spawnPoints.Count <= 2)
         {
             Debug.Log("No spawn points available");
             return;

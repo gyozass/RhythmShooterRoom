@@ -50,8 +50,18 @@ public class DoorOpen : MonoBehaviour
         if (other.CompareTag(triggeringTag))
         {
             hasTriggered = true;
-            director.Resume(); 
-            gameObject.SetActive(false);
+            Debug.Log("Triggered by player, resuming timeline");
+
+            if (director != null)
+            {
+                Debug.Log("Director state: " + director.state);
+                director.Resume(); // or try .Play() if it wasn't paused
+            }
+            else
+            {
+                Debug.LogWarning("PlayableDirector not assigned!");
+            }
+
             isOpening = true;
         }
     }

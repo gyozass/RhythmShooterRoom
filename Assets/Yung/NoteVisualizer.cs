@@ -14,13 +14,13 @@ public class NoteVisualizer : MonoBehaviour
     private void OnEnable()
     {
         //GameController.OnLastClick += SpawnNote;
-        NoteSpriteMover.OnReset += ReduceSpawn;
+       // NoteSpriteMover.OnReset += ReduceSpawn;
     }
 
     private void OnDisable()
     {
         //GameController.OnLastClick -= SpawnNote;
-        NoteSpriteMover.OnReset -= ReduceSpawn;
+        //NoteSpriteMover.OnReset -= ReduceSpawn;
     }
 
 

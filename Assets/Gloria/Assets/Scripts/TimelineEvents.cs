@@ -26,9 +26,6 @@ public class TimelineEvents : MonoBehaviour
     [SerializeField] private DialogueData badShotDialogue;
     [SerializeField] private DialogueData postKillDialogue;
 
-    [Header("Arrows")]
-   // [SerializeField] private GameObject arrowsUI;
-
     [Header("Audio")]
     [SerializeField] private AudioSource pulsar;
     [SerializeField] private AudioSource mainGameplaySong;
@@ -36,6 +33,7 @@ public class TimelineEvents : MonoBehaviour
     [Header("State")]
     private bool hasCompletedUIOnly = false;
     private bool hasRespondedToShot = false;
+    private bool hasTriggeredDoor = false;
 
     private PlayableDirector director;
     [SerializeField] AdvBeatManager advBeatManager;
@@ -45,11 +43,6 @@ public class TimelineEvents : MonoBehaviour
         director = GetComponent<PlayableDirector>();
         firstHealth = firstRobot.GetComponent<EnemyHealth>();
         secondHealth = secondRobot.GetComponent<EnemyHealth>();
-
-        //crosshairUI.SetActive(false);
-        //firstRobot.SetActive(false);
-        //secondRobot.SetActive(false);
-        //arrowsUI.SetActive(false);
 
         if (pulsar) pulsar.Play();
     }
@@ -64,13 +57,11 @@ public class TimelineEvents : MonoBehaviour
     private void OnIntroDialogueEnd()
     {
         DialogueSystem.Instance.OnDialogueEnd.RemoveListener(OnIntroDialogueEnd);
-        director.Resume();    // resumes to FadeFromBlack signal
+        director.Resume(); // resumes to FadeFromBlack signal
     }
 
-    // 1. Initial UI-only tutorial & waiting for shot
     public void StartTutorial1()
     {
-        //  crosshairUI.SetActive(true);
         director.Pause();
 
         hasCompletedUIOnly = true;
@@ -79,39 +70,33 @@ public class TimelineEvents : MonoBehaviour
         crosshairUI.SetActive(true);
 
         StartCoroutine(advBeatManager.CountDown());
-        DialogueSystem.Instance.OnDialogueEnd.AddListener(() =>
-        {
-            // After tutorial dialogue ends, wait for OnPlayerShot to fire
-        });
         DialogueSystem.Instance.StartDialogue(shootTutDialogue);
-
     }
 
-    // Called by your shooting system via SendMessage or UnityEvent
-    public void OnPlayerShot(string shotQuality)
+    public void OnPlayerShot(HitType hitType)
     {
         if (!hasCompletedUIOnly || hasRespondedToShot) return;
         hasRespondedToShot = true;
 
-        StartCoroutine(HandleShotWithDelay(shotQuality));
+        StartCoroutine(HandleShotWithDelay(hitType));
     }
 
-    private IEnumerator HandleShotWithDelay(string shotQuality)
+    private IEnumerator HandleShotWithDelay(HitType hitType)
     {
         yield return new WaitForSeconds(1f);
 
         DialogueSystem.Instance.OnDialogueEnd.AddListener(SpawnFirstRobot);
 
-        switch (shotQuality)
+        switch (hitType)
         {
-            case "Perfect":
+            case HitType.Perfect:
                 DialogueSystem.Instance.StartDialogue(perfectShotDialogue);
                 break;
-            case "Bad":
+
+            case HitType.Okay:
+            case HitType.Good:
+            case HitType.Miss:
                 DialogueSystem.Instance.StartDialogue(badShotDialogue);
-                break;
-            default:
-                SpawnFirstRobot();
                 break;
         }
     }
@@ -136,7 +121,6 @@ public class TimelineEvents : MonoBehaviour
         director.Resume(); // resumes to PostKillDialogue signal
     }
 
-    // 2. Post‑kill dialogue (Timeline signal)
     public void PlayPostKillDialogue()
     {
         director.Pause();
@@ -156,16 +140,25 @@ public class TimelineEvents : MonoBehaviour
     private void OnSecondRobotKilled()
     {
         secondHealth.OnDeath.RemoveListener(OnSecondRobotKilled);
-        director.Resume(); // resumes to ShowArrows signal
+        director.Pause(); // wait for door trigger
     }
 
-    // 3. Activate arrows (Timeline signal)
-  // public void ActivateArrows()
-  // {
-  //     arrowsUI.SetActive(true);
-  // }
+    public void OnDoorTriggered()
+    {
+        if (hasTriggeredDoor) return;
+        hasTriggeredDoor = true;
+        director.Resume(); // resumes to camera pan + player push
+    }
 
-    // 4. Fade from black if needed (Timeline signal)
+    public void PauseTimeline()
+    {
+        if (director != null)
+        {
+            director.Pause();
+            Debug.Log("Timeline paused after camera pan and player push.");
+        }
+    }
+
     public void FadeFromBlack()
     {
         StartCoroutine(FadeRoutine());
@@ -191,12 +184,4 @@ public class TimelineEvents : MonoBehaviour
         fadeCanvas.gameObject.SetActive(false);
     }
 
-    public void PauseTimeline()
-    {
-        if (director != null)
-        {
-            director.Pause();
-            Debug.Log("Timeline paused after camera pan and player push.");
-        }
-    }
 }
