@@ -52,7 +52,7 @@ public class PlayerShooting : MonoBehaviour
 
     private void Start()
     {
-        playerScore = GetComponent<PlayerScore>();
+        playerScore = FindObjectOfType<PlayerScore>();  
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
 
@@ -106,11 +106,12 @@ public class PlayerShooting : MonoBehaviour
     
         if (musicNote.currentOffset < musicNote._okPercentage)
         {
-            isWithinThreshold = true;
             CreateHitImpact(hit.point, hit.normal);
             ApplyKnockback();
             gunRecoil.Play();
-    
+            OnShoot(musicNote.currentHitType);
+            isWithinThreshold = true;
+
             StartCoroutine(HideGlowAfterSeconds());
         }
     
