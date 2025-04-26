@@ -18,14 +18,14 @@ public class GunSFXManager : MonoBehaviour
 
     void Update()
     {
-   //     if (playerShooting.isWithinThreshold)
-   //     {
-   //         if (gunAudioArr != null && gunAudioArr.Count > 0)
-   //         {
-   //             int randomIndex = Random.Range(0, gunAudioArr.Count);
-   //             audioSource.PlayOneShot(gunAudioArr[randomIndex]);
-   //             playerShooting.isWithinThreshold = false;
-   //         }
-   //     }
+        if (playerShooting.isWithinThreshold)
+        {
+            if (gunAudioArr != null && gunAudioArr.Count > 0)
+            {
+                int randomIndex = Random.Range(0, gunAudioArr.Count);
+                audioSource.PlayOneShot(gunAudioArr[randomIndex]);
+                playerShooting.isWithinThreshold = false;
+            }
+        }
     }
 }
