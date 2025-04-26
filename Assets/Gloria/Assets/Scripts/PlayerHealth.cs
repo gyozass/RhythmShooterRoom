@@ -7,13 +7,13 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] public float hitPoints = 100f;
     [NonSerialized] public float maxHealth = 100f;
-    [SerializeField] Canvas bloodCanvas;
-  ///  DeathHandler deathHandler;
+    [SerializeField] GameObject bloodCanvas;
+    ///  DeathHandler deathHandler;
 
     public void TakeDamage(float damage)
     {
         hitPoints -= damage;
-        bloodCanvas.enabled = true;
+        bloodCanvas.SetActive(true);
 
         if (hitPoints <= 0)
         {
@@ -21,12 +21,12 @@ public class PlayerHealth : MonoBehaviour
            
         }
 
-        Invoke("DisableBloodCanvas", 1f);
+        Invoke("DisableBloodCanvas", 0.5f);
     }
 
     void DisableBloodCanvas()
     {
-        bloodCanvas.enabled = false; 
+        bloodCanvas.SetActive(false); 
     }
 }
 

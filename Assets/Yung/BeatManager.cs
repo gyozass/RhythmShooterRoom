@@ -106,20 +106,20 @@ public class BeatManager : MonoBehaviour{
 //            }
 //            else if (roundedDifference > _goodThreshold)
 //            {
-//                textMeshProUGUI.text = "ok".ToString();
+//                textMeshProUGUI.text = "OK".ToString();
 //                _timelineEvents.OnPlayerShot("Bad");
 //                Debug.Log("ok");
 //            }
 //            else if (roundedDifference > _perfectThreshold)
 //            {
-//                textMeshProUGUI.text = "great".ToString();
+//                textMeshProUGUI.text = "GREAT".ToString();
 //                Debug.Log("great");
 //                _timelineEvents.OnPlayerShot("Bad");
 //            }
 //
 //            else
 //            {
-//                textMeshProUGUI.text = "perfect".ToString();
+//                textMeshProUGUI.text = "PERFECT".ToString();
 //            _timelineEvents.OnPlayerShot("Perfect");
 //            Debug.Log("perfect");
 //            }
