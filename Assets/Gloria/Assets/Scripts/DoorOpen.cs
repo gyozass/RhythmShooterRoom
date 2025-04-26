@@ -54,8 +54,7 @@ public class DoorOpen : MonoBehaviour
 
             if (director != null)
             {
-                Debug.Log("Director state: " + director.state);
-                director.Resume(); // or try .Play() if it wasn't paused
+                FindObjectOfType<TimelineEvents>().OnDoorTriggered();
             }
             else
             {
