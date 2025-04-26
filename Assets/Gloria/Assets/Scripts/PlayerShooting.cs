@@ -43,9 +43,16 @@ public class PlayerShooting : MonoBehaviour
     //private Image clickEffectGlow;
     [SerializeField] private float knockbackForce = 20f;
     [SerializeField] private float knockbackDuration = 0.5f;
+    private PlayerScore playerScore;
+
+    void OnShoot(HitType hitType)
+    {
+        playerScore.AddScore(hitType);
+    }
 
     private void Start()
     {
+        playerScore = GetComponent<PlayerScore>();
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
 
