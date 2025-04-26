@@ -12,7 +12,7 @@ public class PlayerScore : MonoBehaviour
 
     [Header("Combo Settings")]
     public int comboMultiplierStart = 1;
-    public int comboMultiplierIncreaseEvery = 5;
+    public int comboMultiplierIncreaseEvery = 5; 
 
     private int currentMultiplier = 1;
     [SerializeField] TextMeshProUGUI scoreText;
@@ -24,9 +24,9 @@ public class PlayerScore : MonoBehaviour
         UpdateUI();
     }
 
-    public void AddScore(HitResult hitResult)
+    public void AddScore(HitType hitType)
     {
-        if (hitResult.type == HitType.Miss)
+        if (hitType == HitType.Miss)
         {
             ResetCombo();
             UpdateUI();
@@ -34,7 +34,7 @@ public class PlayerScore : MonoBehaviour
         }
 
         int points = 0;
-        switch (hitResult.type)
+        switch (hitType)
         {
             case HitType.Perfect:
                 points = 100;
@@ -55,10 +55,10 @@ public class PlayerScore : MonoBehaviour
             maxCombo = combo;
 
         UpdateMultiplier();
+
         score += points * currentMultiplier;
 
-        Debug.Log($"Hit: {hitResult.type} | Points: {points} | Combo: {combo} | Multiplier: {currentMultiplier}x | Total Score: {score}");
-        UpdateUI(); // Update UI after scoring
+        Debug.Log($"Hit: {hitType} | Points: {points} | Combo: {combo} | Multiplier: {currentMultiplier}x | Total Score: {score}");
     }
 
     void UpdateMultiplier()

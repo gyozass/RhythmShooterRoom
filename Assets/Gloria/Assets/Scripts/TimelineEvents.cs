@@ -25,7 +25,6 @@ public class TimelineEvents : MonoBehaviour
     [SerializeField] private DialogueData perfectShotDialogue;
     [SerializeField] private DialogueData badShotDialogue;
     [SerializeField] private DialogueData postKillDialogue;
-    [SerializeField] private DialogueData secondDeathDialogue;
 
     [Header("Audio")]
     [SerializeField] private AudioSource pulsar;
@@ -141,17 +140,7 @@ public class TimelineEvents : MonoBehaviour
     private void OnSecondRobotKilled()
     {
         secondHealth.OnDeath.RemoveListener(OnSecondRobotKilled);
-        director.Pause(); // pause after second robot death
-
-        // Start a new dialogue
-        DialogueSystem.Instance.OnDialogueEnd.AddListener(OnSecondDeathDialogueFinished);
-        DialogueSystem.Instance.StartDialogue(secondDeathDialogue); // <- You need to assign this DialogueData
-    }
-    private void OnSecondDeathDialogueFinished()
-    {
-        DialogueSystem.Instance.OnDialogueEnd.RemoveListener(OnSecondDeathDialogueFinished);
-        // After dialogue finishes, wait for door trigger (don't resume yet)
-        Debug.Log("Second death dialogue finished, now waiting for door trigger...");
+        director.Pause(); // wait for door trigger
     }
 
     public void OnDoorTriggered()

@@ -122,35 +122,22 @@ public class MusicNote : MonoBehaviour
 		}		
 	}
 
-    public void ReachedFinishLine()
+	public void ReachedFinishLine()
     {
-        if (AdvBeatManager.instance.showDebug && movingDirection == MovingDirection.From_Right)
-            Debug.Log("Passed finish line (with tolerance). Beat " + beat);
+		if (AdvBeatManager.instance.showDebug && movingDirection == MovingDirection.From_Right) Debug.Log("Passed finish line (with tolerance). Beat " + beat);
+		// Change color to red to indicate a miss.
 
-        if (!alreadyDequeued)
+		if (!alreadyDequeued)
         {
-            // Check if the note was hit before changing color and removing it
-            HitResult hitResult = CheckIfHit();
-            if (hitResult.type != HitType.Miss)
-            {
-                // If it was a hit, notify the PlayerScore
-                PlayerScore playerScore = FindObjectOfType<PlayerScore>();
-                if (playerScore != null)
-                {
-                    playerScore.AddScore(hitResult);
-                }
-            }
-            ChangeColor(hitResult.type != HitType.Miss);
-            if (twinNote != null)
-            {
-                twinNote.ChangeColor(hitResult.type != HitType.Miss);
-            }
-        }
+			ChangeColor(false);
+			twinNote.ChangeColor(false);
+		}		
 
-        RemoveNote_FromMainQueue();
-    }
+		RemoveNote_FromMainQueue();
 
-    public void RemoveNote_FromMainQueue()
+	}
+
+	public void RemoveNote_FromMainQueue()
     {
 		//AdvBeatManager.instance._debugText.text += "\nRemove Beat " + beat;
 		/*Debug.Log("I'm deleted. Beat " + beat);
@@ -195,32 +182,33 @@ public class MusicNote : MonoBehaviour
 */
 	}
 
-    public HitResult CheckIfHit()
-    {
-        float offset = Mathf.Abs(transform.localPosition.x - endX);
-        HitType type;
+	public HitResult CheckIfHit()
+	{
+		float offset = Mathf.Abs(transform.localPosition.x - endX);
+		HitType type;
 
-        if (offset <= tolerationOffset)
-        {
-            if (offset < _perfectPercentage) type = HitType.Perfect;
-            else if (offset < _goodPercentage) type = HitType.Good;
-            else if (offset < _okPercentage) type = HitType.Okay;
-            else type = HitType.Miss;
-        }
-        else
-        {
-            type = HitType.Miss;
-        }
+		if (offset <= tolerationOffset)
+		{
+			if (offset < _perfectPercentage) type = HitType.Perfect;
+			else if (offset < _goodPercentage) type = HitType.Good;
+			else if (offset < _okPercentage) type = HitType.Okay;
+			else type = HitType.Miss;
+		}
+		else
+		{
+			type = HitType.Miss;
+		}
 
-        // Log the hit result for debugging
-        Debug.Log($"Hit Check: Offset: {offset}, Type: {type}");
+		RemoveNote_FromMainQueue();
+		return new HitResult { offset = offset, type = type };
 
-        RemoveNote_FromMainQueue();
-        return new HitResult { offset = offset, type = type };
-    }
+		// Play the beat sound.
+		// AdvBeatManager.instance._beatAudioSource.Play();
 
-    // Change the color to indicate whether its a "HIT" or a "MISS".
-    public void ChangeColor(bool hit)
+	}
+
+	// Change the color to indicate whether its a "HIT" or a "MISS".
+	public void ChangeColor(bool hit)
 	{
 		if (hit)
 		{			

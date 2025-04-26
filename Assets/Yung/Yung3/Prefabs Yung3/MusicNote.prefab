@@ -223,21 +223,17 @@ MonoBehaviour:
   endX: 0
   removeLineX: 0
   tolerationOffset: 0
-  currentOffset: 0.19131982
   beat: 0
-  alreadyDequeued: 1
+  alreadyDequeued: 0
   movingDirection: 1
-  twinNote: {fileID: 2333864145732525827}
+  twinNote: {fileID: 0}
   animator: {fileID: 95532764994225806}
-  textMeshProUGUI: {fileID: 0}
-  _timelineEvents: {fileID: 0}
-  _perfectPercentage: 0.1
+  _perfectPercentage: 0.3
   _goodPercentage: 0.3
-  _okPercentage: 0.5
-  hitColor: {r: 0, g: 1, b: 0.32033062, a: 1}
+  _okPercentage: 0.3
+  hitColor: {r: 0.10323429, g: 1, b: 0, a: 1}
   missColor: {r: 1, g: 0, b: 0, a: 1}
   spriteRenderer: {fileID: 6535811577800280691}
-  currentHitType: 1
 --- !u!1 &1205471533383084
 GameObject:
   m_ObjectHideFlags: 0

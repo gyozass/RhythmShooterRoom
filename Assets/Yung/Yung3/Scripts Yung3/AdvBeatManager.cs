@@ -210,7 +210,6 @@ public class AdvBeatManager : MonoBehaviour
                         
             musicNoteLeft.Initialize(-startLineX, -finishLineX, -removeLineX, tolerationOffset, posY, track[nextIndex],MovingDirection.From_Left);
             musicNoteRight.Initialize(startLineX, finishLineX, removeLineX, tolerationOffset, posY, track[nextIndex], MovingDirection.From_Right,musicNoteLeft);
-            //musicNoteLeft.twinNote = musicNoteRight;
 
             nextIndex++;
 
@@ -271,6 +270,7 @@ public class AdvBeatManager : MonoBehaviour
         // 1) Pop the next note
         MusicNote note = notesOnScreen.Peek();
         HitResult result = note.CheckIfHit();
+        musicNote.currentHitType = result.type;
 
         // 2) Update your debug UI
         if (showDebugPanel)
@@ -294,21 +294,13 @@ public class AdvBeatManager : MonoBehaviour
             note.twinNote.animator.SetTrigger(didHit ? "arrowHit" : "arrowMiss");
 
         // 4) Update on‑screen hit text
-        hitText.text = result.type.ToString();
-        Debug.Log(result);
+        hitText.text = result.type.ToString().ToLower();
 
         // 5) Fire your Timeline event
         timelineEvents.OnPlayerShot(result.type);
 
-        // 6) Pass the HitResult to PlayerScore
-        PlayerScore playerScore = FindObjectOfType<PlayerScore>();
-        if (playerScore != null)
-        {
-            playerScore.AddScore(result);
-        }
-        else
-        {
-            Debug.LogError("PlayerScore instance not found!");
-        }
+        // 6) Store offset for PlayerShooting
+        musicNote.currentOffset = result.offset;
     }
+
 }

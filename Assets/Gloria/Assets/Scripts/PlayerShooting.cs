@@ -43,11 +43,16 @@ public class PlayerShooting : MonoBehaviour
     //private Image clickEffectGlow;
     [SerializeField] private float knockbackForce = 20f;
     [SerializeField] private float knockbackDuration = 0.5f;
+    private PlayerScore playerScore;
 
-
+    void OnShoot(HitType hitType)
+    {
+        playerScore.AddScore(hitType);
+    }
 
     private void Start()
     {
+        playerScore = FindObjectOfType<PlayerScore>();  
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
 
@@ -95,43 +100,31 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        HitResult hitResult = musicNote.CheckIfHit(); // Get the hit result from the note
-
-        // Use the hitResult to determine damage
-        float damage = GetDamageBasedOnHitType(hitResult.type);
-        Debug.Log(damage + "damage");
+        float damage = GetDamageBasedOnHitType(musicNote.currentHitType);
 
         StartCoroutine(ShowShootingLine(gunTip.transform.position, hit.point));
-
-        if (hitResult.offset < musicNote._okPercentage) // Use the offset from the hitResult
+    
+        if (musicNote.currentOffset < musicNote._okPercentage)
         {
             CreateHitImpact(hit.point, hit.normal);
             ApplyKnockback();
             gunRecoil.Play();
+            OnShoot(musicNote.currentHitType);
             isWithinThreshold = true;
-
-
-            // Pass the hitResult to PlayerScore
-            PlayerScore playerScore = FindObjectOfType<PlayerScore>();
-            if (playerScore != null)
-            {
-                playerScore.AddScore(hitResult); // Pass the HitResult to AddScore
-            }
 
             StartCoroutine(HideGlowAfterSeconds());
         }
-
-        Debug.Log(hitResult.type);
-        Debug.Log(hitResult.offset);
+    
         if (hit.transform.CompareTag("Enemy"))
         {
             EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damage); // Ensure damage is calculated correctly
-                Debug.Log("Enemy damage dealt: " + damage);
+                enemyHealth.TakeDamage(damage);
+                Debug.Log("Enemy damage dealt : " + damage);
             }
         }
+
     }
 
     IEnumerator HideGlowAfterSeconds()
