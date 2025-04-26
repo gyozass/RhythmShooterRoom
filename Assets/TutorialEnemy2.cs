@@ -101,7 +101,7 @@ public class TutorialEnemy2 : MonoBehaviour
 
     private void DashAttack()
     {
-        if (!hasDealtDamage)
+        if (!hasDealtDamage && (Vector3.Distance(transform.position, player.position) <= 5f))
         {
             playerHealth.TakeDamage(EnemyDamage);
         }

@@ -97,15 +97,14 @@ public class MeleeEnemyBev : MonoBehaviour
             agent.Move(dashDirection * dashSpeed * Time.deltaTime);
             yield return null;
         }
-
-        DeactivateEnemy();
     }
 
     private void DashAttack()
     {
-        if (!hasDealtDamage)
+        if (!hasDealtDamage && Vector3.Distance(transform.position, player.position) <= 3f)
         {
             playerHealth.TakeDamage(EnemyDamage);
+            DeactivateEnemy();
         }
 
         animator.SetBool("isChasing", false);

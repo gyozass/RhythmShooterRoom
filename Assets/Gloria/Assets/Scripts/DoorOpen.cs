@@ -7,9 +7,8 @@ public class DoorOpen : MonoBehaviour
 {
     public Transform doorLeft;
     public Transform doorRight;
-
-    public float slideDistance = 3f; // How far each door should slide
-    public float slideSpeed = 3f;    // How fast doors should slide
+    public float slideDistance = 3f;
+    public float slideSpeed = 3f;
     public string triggeringTag = "Player";
 
     private Vector3 leftStartPos;
@@ -18,9 +17,9 @@ public class DoorOpen : MonoBehaviour
     private Vector3 rightTargetPos;
 
     private bool isOpening = false;
+    public bool hasTriggered = false;
 
     [SerializeField] private PlayableDirector director;
-    private bool hasTriggered = false;
 
     void Start()
     {
@@ -29,7 +28,6 @@ public class DoorOpen : MonoBehaviour
 
         leftTargetPos = leftStartPos + Vector3.forward * slideDistance;
         rightTargetPos = rightStartPos + -Vector3.forward * slideDistance;
-        Debug.Log("dist! " + leftTargetPos);
     }
 
     void Update()
@@ -37,9 +35,14 @@ public class DoorOpen : MonoBehaviour
         if (isOpening)
         {
             doorLeft.position = Vector3.MoveTowards(doorLeft.position, leftTargetPos, Time.deltaTime * slideSpeed);
-            Debug.Log("dist! " + leftTargetPos);
-            Debug.Log("dist! " + doorLeft.position);
             doorRight.position = Vector3.MoveTowards(doorRight.position, rightTargetPos, Time.deltaTime * slideSpeed);
+
+            if (Vector3.Distance(doorLeft.position, leftTargetPos) < 0.01f &&
+                Vector3.Distance(doorRight.position, rightTargetPos) < 0.01f)
+            {
+                isOpening = false;
+                Debug.Log("Doors fully opened!");
+            }
         }
     }
 
@@ -50,12 +53,14 @@ public class DoorOpen : MonoBehaviour
         if (other.CompareTag(triggeringTag))
         {
             hasTriggered = true;
-            Debug.Log("Triggered by player, resuming timeline");
+            Debug.Log("Triggered by player, opening doors and resuming timeline!");
 
             if (director != null)
             {
-                Debug.Log("Director state: " + director.state);
-                director.Resume(); // or try .Play() if it wasn't paused
+                if (director.state == PlayState.Paused)
+                    director.Resume();
+                else
+                    director.Play();
             }
             else
             {

@@ -51,7 +51,7 @@ public class EnemyHealth : MonoBehaviour
         OnDeath?.Invoke();  
         Destroy(gameObject);
         Instantiate(robotDieEffect, transform.position, Quaternion.identity);
-        robotDieEffect.SetActive(false);
+        robotDieEffect.SetActive(true);
     }
   //  private IEnumerator FlickerColor()
   //  {

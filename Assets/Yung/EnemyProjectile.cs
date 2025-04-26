@@ -8,10 +8,10 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (hit.transform.CompareTag("Player"))
         {
-            EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            PlayerHealth playerHealth = hit.transform.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
             {
-                enemyHealth.TakeDamage(5f);
+                playerHealth.TakeDamage(5f);
                 Debug.Log("Enemy damage dealt : " + 5f);
             }
         }

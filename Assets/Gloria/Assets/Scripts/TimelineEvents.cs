@@ -15,7 +15,7 @@ public class TimelineEvents : MonoBehaviour
     [SerializeField] private GameObject firstRobot;
     [SerializeField] private GameObject secondRobot;
     [SerializeField] private GameObject crosshairUI;
-
+    [SerializeField] private GameObject enemySpawner;
     private EnemyHealth firstHealth;
     private EnemyHealth secondHealth;
 
@@ -25,18 +25,20 @@ public class TimelineEvents : MonoBehaviour
     [SerializeField] private DialogueData perfectShotDialogue;
     [SerializeField] private DialogueData badShotDialogue;
     [SerializeField] private DialogueData postKillDialogue;
+    [SerializeField] private DialogueData secondDeathDialogue;
 
     [Header("Audio")]
     [SerializeField] private AudioSource pulsar;
     [SerializeField] private AudioSource mainGameplaySong;
 
-    [Header("State")]
+    [Header("bool")]
     private bool hasCompletedUIOnly = false;
     private bool hasRespondedToShot = false;
-    private bool hasTriggeredDoor = false;
 
+    [Header("Components")]
     private PlayableDirector director;
     [SerializeField] AdvBeatManager advBeatManager;
+    [SerializeField] DoorOpen doorOpen;
 
     void Start()
     {
@@ -125,31 +127,61 @@ public class TimelineEvents : MonoBehaviour
     {
         director.Pause();
         DialogueSystem.Instance.OnDialogueEnd.AddListener(SpawnSecondRobot);
+        StartCoroutine(StartPostKillDialogueNextFrame());
+    }
+
+    private IEnumerator StartPostKillDialogueNextFrame()
+    {
+        yield return null; // wait 1 frame
         DialogueSystem.Instance.StartDialogue(postKillDialogue);
     }
 
     public void SpawnSecondRobot()
     {
+        if (secondRobot != null)
+        {
+            secondRobot.SetActive(true);
+        }
         DialogueSystem.Instance.OnDialogueEnd.RemoveListener(SpawnSecondRobot);
 
-        secondRobot.SetActive(true);
-        director.Resume(); // resumes to second robot death
+        director.Pause();
         secondHealth.OnDeath.AddListener(OnSecondRobotKilled);
     }
 
     private void OnSecondRobotKilled()
     {
         secondHealth.OnDeath.RemoveListener(OnSecondRobotKilled);
-        director.Pause(); // wait for door trigger
+        director.Resume(); // resume timeline
+
+        StartCoroutine(HandleSecondDeathDialogue());
     }
 
+    private IEnumerator HandleSecondDeathDialogue()
+    {
+        yield return new WaitForSeconds(2f); // wait 1 frame to let Unity clean up the enemy properly
+
+        DialogueSystem.Instance.OnDialogueEnd.AddListener(OnSecondDeathDialogueFinished);
+        DialogueSystem.Instance.StartDialogue(secondDeathDialogue);
+    }
+    private void OnSecondDeathDialogueFinished()
+    {
+        DialogueSystem.Instance.OnDialogueEnd.RemoveListener(OnSecondDeathDialogueFinished);
+        // After dialogue finishes, wait for door trigger (don't resume yet)
+        Debug.Log("Second death dialogue finished, now waiting for door trigger...");
+    }
     public void OnDoorTriggered()
     {
-        if (hasTriggeredDoor) return;
-        hasTriggeredDoor = true;
+        if (doorOpen.hasTriggered) return;
+        doorOpen.hasTriggered = true;
         director.Resume(); // resumes to camera pan + player push
     }
 
+    public void EnemySpawner()
+    {
+        enemySpawner.SetActive(true);
+        mainGameplaySong.Play();
+        
+    }
     public void PauseTimeline()
     {
         if (director != null)
