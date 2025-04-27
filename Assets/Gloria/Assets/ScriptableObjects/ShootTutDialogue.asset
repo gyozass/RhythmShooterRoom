@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueLines:
   - speakerName: 'Staff 1 '
-    text: Urm, so you just wait for the arrow to reach the inner arrow to use your
-      gun. Got it?
-  - speakerName: You
-    text: Wait why am I even here?
+    text: So you just wait for the arrow to reach the inner arrow and left click
+      to use your gun. Got it?
   - speakerName: Staff 2
-    text: No questions. Just do as we say soldier.
-  - speakerName: You
-    text: Soldier?
+    text: Do NOT spam it or you'll lose out on shots.
+  - speakerName: Staff 1
+    text: Here, test it out once.

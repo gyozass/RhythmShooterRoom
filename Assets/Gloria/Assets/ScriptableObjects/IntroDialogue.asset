@@ -17,5 +17,3 @@ MonoBehaviour:
     text: Is he awake yet?
   - speakerName: ???
     text: 'Quickly teach him the basics we don''t have much time to waste. '
-  - speakerName: You
-    text: What?

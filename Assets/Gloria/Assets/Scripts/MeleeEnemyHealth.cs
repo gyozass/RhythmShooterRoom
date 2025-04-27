@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 //using MoreMountains.Feedbacks;
 
 public class MeleEnemyHealth : MonoBehaviour
 {
     [SerializeField] float hitPoints = 100f;
     [SerializeField] Color damageColor = Color.red;
-    [SerializeField] float flickerDuration = 2f;
+   // [SerializeField] float flickerDuration = 2f;
     [SerializeField] GameObject robotDieEffect;
+    [SerializeField] Image healthBarImage;
 
     Animator animator;
     private Color originalColor;
@@ -23,6 +25,8 @@ public class MeleEnemyHealth : MonoBehaviour
         {
             originalColor = rend[0].material.color;
         }
+
+        UpdateHealthBar();
     }
 
     public void TakeDamage(float damage)
@@ -35,11 +39,20 @@ public class MeleEnemyHealth : MonoBehaviour
             StartCoroutine(FlickerColor());
         }
 
+        UpdateHealthBar();
 
         if (hitPoints <= 0)
         {
             animator.SetTrigger("Dead");
             Invoke("RobotDie", 1f);
+        }
+    }
+
+    private void UpdateHealthBar()
+    {
+        if (healthBarImage != null)
+        {
+            healthBarImage.fillAmount = hitPoints / 100;
         }
     }
 

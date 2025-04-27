@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 //using MoreMountains.Feedbacks;
 
 public class EnemyHealth : MonoBehaviour
@@ -15,6 +16,8 @@ public class EnemyHealth : MonoBehaviour
     private Color originalColor;
     [SerializeField] private SkinnedMeshRenderer[] rend;
     private bool isFlickering = false;
+    [SerializeField] Image healthBarImage;
+
 
     public UnityEvent OnDeath;
 
@@ -22,10 +25,12 @@ public class EnemyHealth : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
 
-      // if (rend != null)
-      // {
-      //     originalColor = rend[0].material.color;
-      // }
+        // if (rend != null)
+        // {
+        //     originalColor = rend[0].material.color;
+        // }
+
+        UpdateHealthBar();
     }
 
     public void TakeDamage(float damage)
@@ -33,18 +38,28 @@ public class EnemyHealth : MonoBehaviour
         BroadcastMessage("OnDamageTaken", SendMessageOptions.DontRequireReceiver);
         hitPoints -= damage;
 
-       // if (!isFlickering && rend != null)
-       // {
-       //     StartCoroutine(FlickerColor());
-       // }
+        // if (!isFlickering && rend != null)
+        // {
+        //     StartCoroutine(FlickerColor());
+        // }
 
-
+        UpdateHealthBar();
         if (hitPoints <= 0)
         {
             animator.SetTrigger("Dead");
             Invoke("RobotDie", 1f);
         }
+
     }
+
+    private void UpdateHealthBar()
+    {
+        if (healthBarImage != null)
+        {
+            healthBarImage.fillAmount = hitPoints / 100;
+        }
+    }
+
 
     private void RobotDie()
     {

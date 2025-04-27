@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: SecondDeathDialogue
   m_EditorClassIdentifier: 
   dialogueLines:
-  - speakerName: dd
-    text: dd
+  - speakerName: Staff 1
+    text: Now that you're all warmed up just head over to that door and we'll get
+      started with your test and don't forget to use your jump pads to help !
+  - speakerName: You
+    text: Test?

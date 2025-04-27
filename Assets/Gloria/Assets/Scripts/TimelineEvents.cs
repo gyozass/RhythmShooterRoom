@@ -1,10 +1,11 @@
 ﻿using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.UIElements;
 
 public class TimelineEvents : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class TimelineEvents : MonoBehaviour
     private PlayableDirector director;
     [SerializeField] AdvBeatManager advBeatManager;
     [SerializeField] DoorOpen doorOpen;
+    [SerializeField] AudioTimer audioTimer;
 
     void Start()
     {
@@ -173,13 +175,14 @@ public class TimelineEvents : MonoBehaviour
     {
         if (doorOpen.hasTriggered) return;
         doorOpen.hasTriggered = true;
+        audioTimer.timerStarted = true;
         director.Resume(); // resumes to camera pan + player push
     }
 
     public void EnemySpawner()
     {
         enemySpawner.SetActive(true);
-        mainGameplaySong.Play();
+        mainGameplaySong.Pause();
         
     }
     public void PauseTimeline()

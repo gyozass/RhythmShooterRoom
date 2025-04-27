@@ -1,7 +1,7 @@
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -79,7 +79,7 @@ public class PlayerShooting : MonoBehaviour
         StartCoroutine(ApplyKnockbackCoroutine());
     }
 
-    private IEnumerator ApplyKnockbackCoroutine()
+    public IEnumerator ApplyKnockbackCoroutine()
     {
         float elapsedTime = 0f;
         while (elapsedTime < knockbackDuration)
