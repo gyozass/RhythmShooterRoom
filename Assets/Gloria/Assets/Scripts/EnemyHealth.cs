@@ -43,12 +43,14 @@ public class EnemyHealth : MonoBehaviour
         //     StartCoroutine(FlickerColor());
         // }
 
-        UpdateHealthBar();
+        // Debug.Log(hitPoints);
         if (hitPoints <= 0)
         {
+
             animator.SetTrigger("Dead");
             Invoke("RobotDie", 1f);
         }
+        UpdateHealthBar();
 
     }
 
@@ -56,6 +58,8 @@ public class EnemyHealth : MonoBehaviour
     {
         if (healthBarImage != null)
         {
+            Debug.Log("test healthbar " + hitPoints / 100);
+
             healthBarImage.fillAmount = hitPoints / 100;
         }
     }

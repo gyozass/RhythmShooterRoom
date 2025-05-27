@@ -29,8 +29,8 @@ public class TimelineEvents : MonoBehaviour
     [SerializeField] private DialogueData secondDeathDialogue;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource pulsar;
-    [SerializeField] private AudioSource mainGameplaySong;
+    [SerializeField] public AudioSource pulsar;
+    [SerializeField] public AudioSource mainGameplaySong;
 
     [Header("bool")]
     private bool hasCompletedUIOnly = false;
@@ -109,8 +109,8 @@ public class TimelineEvents : MonoBehaviour
     {
         DialogueSystem.Instance.OnDialogueEnd.RemoveListener(SpawnFirstRobot);
 
-        if (pulsar) pulsar.Stop();
-        if (mainGameplaySong) mainGameplaySong.Play();
+      // if (pulsar) pulsar.Stop();
+      // if (mainGameplaySong) mainGameplaySong.Play();
 
         firstRobot.SetActive(true);
         crosshairUI.SetActive(true);
@@ -175,15 +175,12 @@ public class TimelineEvents : MonoBehaviour
     {
         if (doorOpen.hasTriggered) return;
         doorOpen.hasTriggered = true;
-        audioTimer.timerStarted = true;
         director.Resume(); // resumes to camera pan + player push
     }
 
-    public void EnemySpawner()
+    public void StartGameplay()
     {
-        enemySpawner.SetActive(true);
-        mainGameplaySong.Pause();
-        
+        mainGameplaySong.Stop();
     }
     public void PauseTimeline()
     {

@@ -10,6 +10,7 @@ public enum MovingDirection { From_Left, From_Right };
 
 public class AdvBeatManager : MonoBehaviour
 {
+    [SerializeField] private PlayerScore playerScore;
     [Header("Debug")]
     //Debug Canvas
     public bool showDebug = false;
@@ -272,6 +273,7 @@ public class AdvBeatManager : MonoBehaviour
         HitResult result = note.CheckIfHit();
         musicNote.currentHitType = result.type;
 
+
         // 2) Update your debug UI
         if (showDebugPanel)
         {
@@ -300,7 +302,10 @@ public class AdvBeatManager : MonoBehaviour
         timelineEvents.OnPlayerShot(result.type);
 
         // 6) Store offset for PlayerShooting
-        musicNote.currentOffset = result.offset;
+        musicNote.currentOffset = result.offset;        
+        
+        playerScore.AddScore(result.type);
+        playerScore.UpdateUI();
     }
 
 }

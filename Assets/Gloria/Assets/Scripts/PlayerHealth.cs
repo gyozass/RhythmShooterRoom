@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     [NonSerialized] public float maxHealth = 100f;
     [SerializeField] GameObject bloodCanvas;
     [SerializeField] PlayerShooting playerShooting;
+    [SerializeField] PlayerScore PlayerScore;
     ///  DeathHandler deathHandler;
 
     public void TakeDamage(float damage)
@@ -20,7 +21,9 @@ public class PlayerHealth : MonoBehaviour
 
         if (hitPoints <= 0)
         {
-            Debug.Log("ded");
+            Debug.Log("ded"); 
+            PlayerPrefs.SetInt("Score", PlayerScore.GetScore());
+
             SceneManager.LoadScene("EndScene");
         }
 

@@ -39,19 +39,20 @@ public class MeleEnemyHealth : MonoBehaviour
             StartCoroutine(FlickerColor());
         }
 
-        UpdateHealthBar();
-
         if (hitPoints <= 0)
         {
             animator.SetTrigger("Dead");
             Invoke("RobotDie", 1f);
         }
+
+        UpdateHealthBar();
     }
 
     private void UpdateHealthBar()
     {
         if (healthBarImage != null)
         {
+            Debug.Log("test health melee " + hitPoints / 100);
             healthBarImage.fillAmount = hitPoints / 100;
         }
     }

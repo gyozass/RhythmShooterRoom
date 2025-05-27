@@ -51,7 +51,7 @@ public class NewEnemySpawner : MonoBehaviour
             yield return new WaitUntil(() =>
             {
                 _spawnedEnemies.RemoveAll(e => e == null);
-                return _spawnedEnemies.Count == 0;
+                return _spawnedEnemies.Count == 3;
             });
 
             yield return new WaitForSeconds(SecondsPerBeat * 4);

@@ -8,7 +8,8 @@ public class AudioTimer : MonoBehaviour
 {
     public AudioSource audioSource; 
     public string sceneToLoad; 
-    public TextMeshProUGUI timerText; 
+    public TextMeshProUGUI timerText;
+    public PlayerScore PlayerScore;
 
     private float timer;
     public bool timerStarted = false;
@@ -39,6 +40,7 @@ public class AudioTimer : MonoBehaviour
 
             if (timer <= 0f)
             {
+                PlayerPrefs.SetInt("Score", PlayerScore.GetScore());
                 SceneManager.LoadScene(sceneToLoad);
             }
         }

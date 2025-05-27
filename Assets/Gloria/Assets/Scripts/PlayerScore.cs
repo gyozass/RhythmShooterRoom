@@ -58,7 +58,7 @@ public class PlayerScore : MonoBehaviour
 
         score += points * currentMultiplier;
 
-        Debug.Log($"Hit: {hitType} | Points: {points} | Combo: {combo} | Multiplier: {currentMultiplier}x | Total Score: {score}");
+        //Debug.Log($"Hit: {hitType} | Points: {points} | Combo: {combo} | Multiplier: {currentMultiplier}x | Total Score: {score}");
     }
 
     void UpdateMultiplier()
@@ -70,7 +70,7 @@ public class PlayerScore : MonoBehaviour
     {
         combo = 0;
         currentMultiplier = comboMultiplierStart;
-        Debug.Log("Combo broken!");
+        //Debug.Log("Combo broken!");
     }
 
     public void ResetScore()
@@ -81,12 +81,17 @@ public class PlayerScore : MonoBehaviour
         currentMultiplier = comboMultiplierStart;
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         if (scoreText != null)
             scoreText.text = score.ToString();
 
         if (comboText != null)
-            comboText.text = combo > 0 ? $"Combo: {combo}x" : "";
+            comboText.text = combo > 0 ? $"{combo}x" : "";
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 }

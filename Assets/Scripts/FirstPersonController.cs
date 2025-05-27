@@ -247,7 +247,7 @@ namespace StarterAssets
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 			if (_verticalVelocity < _terminalVelocity)
 			{
-				Debug.Log("vertical velocity");
+				//Debug.Log("vertical velocity");
 				_verticalVelocity += Gravity * _gravModifier * Time.deltaTime;
 			}
 			else

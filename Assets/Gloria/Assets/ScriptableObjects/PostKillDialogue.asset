@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueLines:
   - speakerName: Staff 1
-    text: Notice how it didn't instantly kill him? If you don't hit on time it does
-      less damage so stop slacking or you're going to waste this life too.
+    text: If you don't get a perfect hit it does less damage so stop slacking or
+      you're going to waste this life too.
   - speakerName: Staff 2
     text: Anyways, up next is our Melee Enemy. They are pretty fast so kill them
       before they get too close to you or they WILL hunt you down.

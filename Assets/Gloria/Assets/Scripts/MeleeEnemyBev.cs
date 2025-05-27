@@ -101,7 +101,7 @@ public class MeleeEnemyBev : MonoBehaviour
 
     private void DashAttack()
     {
-        if (!hasDealtDamage && Vector3.Distance(transform.position, player.position) <= 3f)
+        if (!hasDealtDamage)
         {
             playerHealth.TakeDamage(EnemyDamage);
             DeactivateEnemy();
